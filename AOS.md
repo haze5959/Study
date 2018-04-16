@@ -170,9 +170,9 @@ btLayout.addView(bt);	//레이아웃에 생성한 뷰 넣기
     onPostExecute(Result result) : 쓰레드가 완료되면 실행되는 메소드.
       AsyncTask는 generic이기 때문에 extends 시 3개의 generic type을 붙여주게 되는데, 첫번째가 doInBackground() 에서 사용할 Params, 두번째가 onProgressUpdate()에서 사용할 Progress, 세번째가 onPostExecute()에서 사용할 Result의 type이다. 
 
-![](/Users/ogkwon/Desktop/study/files/AOS/1. 쓰레드의 스케줄링과 관련된 메서드.jpg)
+![](https://github.com/haze5959/Study/blob/master/files/AOS/1. 쓰레드의 스케줄링과 관련된 메서드.jpg)
 
-![](/Users/ogkwon/Desktop/study/files/AOS/2. 쓰레드의 상태.jpg)
+![](https://github.com/haze5959/Study/blob/master/files/AOS/2. 쓰레드의 상태.jpg)
 
 
 
