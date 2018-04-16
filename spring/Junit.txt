@@ -1,0 +1,32 @@
+
+assertEquals([message], expected, actual)	두 값이 같은 지 비교
+assertSame([message], expceted, actual)
+assertNotSame([message], expceted, actual)	두 객체가 동일한 객체인지 비교
+assertTrue([message], expceted)
+assertFalse([message], expceted)	참/거짓 판별
+assertNull([message], expceted)
+assertNotNull([message], expceted)	null여부 판단
+fail([message])	테스트 실패로 판단
+
+
+
+
+
+Junit4 애노테이션
+@BeforeClass : 테스트 클래스 내에서 수행 전 한 번만 실행, static method 여야 함
+@AfterClass : 테스트 클래스 내에서 수행 후 한 번만 실행, static method 여야 함
+@Before : 테스트 케이스 수행 전 반복실행
+@After : 테스트 케이스 수행 후 반복실행
+@Test : 테스트 메소드 지정
+
+
+
+================================RestTemplate 단위 테스트========================================
+
+ RestTemplate rest = new RestTemplate();String url = "http://localhost:8080/Homework/GetPost.do";
+ MultiValueMap<String,String>  parameters= new LinkedMultiValueMap<String, String>();
+ parameters.add("text", "결과다 ㅎㅎㅎ");
+ ResponseEntity<String> responseEntity = rest.postForEntity(url, parameters, String.class);
+ System.out.println(responseEntity);
+
+================================================================================================

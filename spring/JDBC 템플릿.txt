@@ -1,0 +1,156 @@
+Class.forName(“sun.jdbc.odbc.JdbcOdbcDriver”); // MS-SQL 드라이버 등록
+Class.forName(“oracle.jdbc.driver.OracleDriver”); // Oracle 드라이버 등록
+
+================================일반 JDBC=====================================
+
+public Employee getEmployeeById(long id) {
+Connection conn = null;
+PreparedStatement stmt = null;
+ResultSet rs = null;
+try {
+conn = dataSource.getConnection();
+stmt = conn.prepareStatement(
+"select id, firstname, lastname, salary from " +
+"employee where id=?"); ??직원 조회
+stmt.setLong(1, id);
+rs = stmt.executeQuery();
+Employee employee = null;
+if (rs.next()) {
+employee = new Employee();
+employee.setId(rs.getLong("id")); ??//데이터로부터 객체 생성
+employee.setFirstName(rs.getString("firstname"));
+employee.setLastName(rs.getString("lastname"));
+employee.setSalary(rs.getBigDecimal("salary"));
+}
+return employee;
+} catch (SQLException e) { ??//여기서 무엇을 수행해야 하지?
+} finally {
+if(rs != null) { ??//정리 작업
+try {
+rs.close();
+} catch(SQLException e) {}
+}
+if(stmt != null) {
+try {
+stmt.close();
+} catch(SQLException e) {}
+}
+if(conn != null) {
+try {
+conn.close();
+} catch(SQLException e) {}
+}
+}
+return null;
+}
+
+=================================================================================
+
+==================================스프링 JDBC====================================
+
+public Employee getEmployeeById(long id) {
+return jdbcTemplate.queryForObject(
+"select id, firstname, lastname, salary " + ??//SQL쿼리
+"from employee where id=?",
+new RowMapper<Employee>() {
+public Employee mapRow(ResultSet rs,
+int rowNum) throws SQLException { ??//결과를 객체에 매핑
+Employee employee = new Employee();
+employee.setId(rs.getLong("id"));
+employee.setFirstName(rs.getString("firstname"));
+employee.setLastName(rs.getString("lastname"));
+employee.setSalary(rs.getBigDecimal("salary"));
+return employee;
+}
+},
+id); ??//쿼리 파라미터 지정
+}
+
+=================================================================================
+
+=================================mybatis xml 설정================================
+
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+      http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">	<!-- "org.apache.commons.dbcp.BasicDataSource" -->
+		<property name="driverClassName" value="com.microsoft.sqlserver.jdbc.SQLServerDriver" />					<!-- <property name="driverClass" value="com.mysql.jdbc.Driver" /> -->
+		<property name="url" value="jdbc:sqlserver://218.55.79.53:1433;DatabaseName=amoreTempDB2" />   <!-- "jdbc:mysql://localhost:3306/test" -->
+		<property name="username" value="sa" />	<!-- spoon1112 -->
+		<property name="password" value="mcncadmin" />	<!-- dhrbs12# -->
+	</bean>
+
+
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+<!-- 		<property name="typeAliasesPackage" value="test.Dao" /> -->
+		<property name="mapperLocations" value="classpath:test/Dao/mapper.xml" />
+	</bean>
+
+
+	<bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- Transaction // commit() rollback() close() 사용 가능 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource">
+		</property>
+	</bean>
+
+</beans>
+
+=================================================================================
+
+=================================mybatis 매핑====================================
+
+@Repository("dao")
+public class dao implements daoInterface {
+	final Logger logger = Logger.getLogger(this.getClass());
+	
+	@Autowired
+	private SqlSession sqlsession;
+	/* private SqlSession sqlSessionFactory; */
+
+	public List<vo> selectTest() {
+		logger.info("DAO 왔다~~~~~~~~~~~~~~~~~~~");
+		List<vo> result = new ArrayList<vo>();
+		try {
+			
+		// 기본적인 매핑 방법
+		// result = sqlsession.selectList("test.Dao.mapper.selectAll");
+		//
+		// logger.info("뭐야이거");
+		//
+		// for(vo vo : result )
+		// {
+		// 		logger.info(vo.getTEST_1() + " 하고 " + vo.getTEST_2());
+		// }
+		//
+		// return result;
+		
+		
+		// 인터페이스를 이용한 매핑 방법
+			logger.info("sqlsesssion ==> " + sqlsession);
+			mapper mapper = sqlsession.getMapper(mapper.class);
+
+			result = mapper.selectAll();
+
+			// System.out.println(sqlSessionFactory.selectList("mapper.selectAll"));
+			// list = sqlSessionFactory.selectList("mapper.selectAll");
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = null;
+		} finally {
+			return result;
+		}
+
+	}
+
+=================================================================================

@@ -1,0 +1,169 @@
+==================================값 주기 받기===========================================
+
+//값 가져오기
+String temp =  (String)request.getParameter("text");
+
+//값 세팅하기
+request.setAttribute("temp", temp);
+
+//페이지 이동하면서 값 넘겨주기
+RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+rd.forward(request, response);
+
+=========================================================================================
+
+===============================페이지 이동방법===================================
+
+RequestDispatcher rd = request.getRequestDispatcher(responseUrl);
+	rd.forward(request, response);
+
+//sendRedirect는 두번의 request가 이루어지기 때문에 위의 방법보다는 느리다. 위는 서버에서 서버로 요청하기 때문에 객체의 전달도 가능
+
+==================================================================================
+
+
+=====================================서블릿==============================================
+
+-- web.xml 매핑 -----------------------------------------------------
+<servlet>
+		<description></description>
+		<display-name>GetPost</display-name>
+		<servlet-name>GetPost</servlet-name>
+		<servlet-class>Controller.GetPost</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetPost</servlet-name>
+		<url-pattern>*.do</url-pattern>
+	</servlet-mapping>
+-----------------------------------------------------------------------
+
+-- 생명주기 ----------------------------------------------------------
+
+public final void init() {}
+
+public final void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {}
+
+public final void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {}
+
+public final void destroy() {}
+
+------------------------------------------------------------------------
+
+=========================================================================================
+
+===============================필   터===================================
+
+<web-app>
+     
+     <filter>
+        <filter-name>HighlightFilter</filter-name>
+        <filter-class>javacan.filter.HighlightFilter</filter-class>
+        <init-param>
+           <param-name>paramName</param-name>
+           <param-value>value</param-value>
+        </init-param>
+     </filter>
+     
+     <filter-mapping>
+        <filter-name>HighlightFilter</filter-name>
+        <url-pattern>*.txt</url-pattern>
+     </filter-mapping>
+     
+</web-app>
+
+-------------------------------------------------------------------------
+
+public class myFilter implements Filter
+{
+	public void init(FilterConfig filterConfig) throws ServletException 
+	필터를 웹 콘테이너내에 생성한 후 초기화할 때 호출한다.
+
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws java.io.IOException, ServletException 
+	체인을 따라 다음에 존재하는 필터로 이동한다. 체인의 가장 마지막에는 클라이언트가 요청한 최종 자원이 위치한다.
+	chain.doFilter(request, response); - 가던길로 가세요~
+	
+	public void destroy() 
+	필터가 웹 콘테이너에서 삭제될 때 호출된다.
+}
+
+=========================================================================
+
+==================================인코딩 이상할 때=======================================
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<% request.setCharacterEncoding("UTF-8"); %>
+
+//server.xml에서 
+<Connector connectionTimeout="20000" port="8080" protocol="HTTP/1.1" redirectPort="8443" URIEncoding="UTF-8"/>
+
+=========================================================================================
+
+
+
+============================예 외 처 리==================================
+
+public class FoolException extends RuntimeException 
+{
+	//예외 나왔을 경우
+}
+
+if("fool".equals(nick)) 
+{
+    throw new FoolException();
+}
+
+클래스 throws FoolException{}
+
+//Exception은 프로그램 작성 시 이미 예측가능한 예외를 작성할 때 사용하고 
+//RuntimeException은 발생 할수도 발생 안 할수도 있는 경우에 작성
+
+e.printStackTrace() = 에러 메세지의 발생 근원지를 찾아서 단계별로 에러를 출력한다.
+
+=========================================================================
+
+==============================쓰 레 드===================================
+
+public class Test implements Runnable {
+	public void run() {
+	}
+}
+
+
+
+
+void join( ) //쓰레드가 끝날때까지(죽을때까지) 기다린다
+void join(long millis) //쓰레드를 1/1000초만큼 기다린다isAlive( ) 
+isAlive( ) 
+sleep(1000)
+=========================================================================
+
+
+============================instanceof===================================
+if (animal instanceof Tiger) {
+            System.out.println("어흥");
+        } else if (animal instanceof Lion) {
+            System.out.println("으르렁");
+        }
+=========================================================================
+
+===========================모델 뷰=======================================
+
+ModelAndView mv = new ModelAndView("/sample/boardList"); //jsp파일을 의미
+
+List<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
+for (vo vo : result) {
+			HashMap<String, String> data = new HashMap<String, String>();
+			data.put("getPhoneCode", vo.getPhoneCode());
+			data.put("getPhoneModel", vo.getPhoneModel());
+			list.add(data);   
+		}
+
+mv.addObject("list", list);
+
+return mv;
+
+=========================================================================

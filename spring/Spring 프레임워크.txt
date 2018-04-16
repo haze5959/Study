@@ -1,0 +1,104 @@
+==============================인코딩 필터=====================================
+//UTF-8 설정
+
+<filter>
+    <filter-name>encodingFilter</filter-name>
+<filter-class>
+        org.springframework.web.filter.CharacterEncodingFilter
+</filter-class>
+<init-param>
+    <param-name>encoding</param-name>
+    <param-value>utf-8</param-value>
+</init-param>
+</filter>
+<filter-mapping>
+    <filter-name>encodingFilter</filter-name>
+    <url-pattern>*.do</url-pattern>
+</filter-mapping>
+
+===============================================================================
+
+==========================리스너 / 콘텍스트==========================================
+
+<listener>
+   <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+</listener>
+
+<context-param>
+   <param-name>contextConfigLocation</param-name>
+   <param-value>classpath*:config/spring/context-*.xml</param-value>
+</context-param>
+
+===============================================================================
+
+===========================서블렛 기본 설정====================================
+
+<servlet>
+        <servlet-name>action</servlet-name>
+        <servlet-class>
+            org.springframework.web.servlet.DispatcherServlet
+        </servlet-class>
+        <init-param>
+            <param-name>contextConfigLocation</param-name>
+            <param-value>
+                /WEB-INF/config/*-servlet.xml
+            </param-value>
+        </init-param>
+        <load-on-startup>1</load-on-startup>
+</servlet>
+<servlet-mapping>
+    <servlet-name>action</servlet-name>
+    <url-pattern>*.do</url-pattern>
+</servlet-mapping>
+
+===============================================================================
+
+=============================인 터 셉 터=======================================
+//필터가 하는 내용과 비슷함
+
+//preHandler()은 컨트롤러가 호출되기 전에 실행
+//postHandle()은 컨트롤러가 실행되고 난 후에 호출
+
+public class LoggerInterceptor extends HandlerInterceptorAdapter {
+    protected Log log = LogFactory.getLog(LoggerInterceptor.class);
+     
+    @Override
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        if (log.isDebugEnabled()) {
+            log.debug("=====          START         ============");
+            log.debug(" Request URI \t:  " + request.getRequestURI());
+        }
+        return super.preHandle(request, response, handler);
+    }
+     
+    @Override
+    public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
+        if (log.isDebugEnabled()) {
+            log.debug("=======           END          ===========\n");
+        }
+    }
+}
+
+//다음을 xml에다가 추가
+<mvc:interceptors>
+   <mvc:interceptor>
+       <mvc:mapping path="/**"/>
+       <bean id="loggerInterceptor" class="first.common.logger.LoggerInterceptor"></bean>
+   </mvc:interceptor>
+</mvc:interceptors>
+
+===============================================================================
+
+=============================viewResolver======================================
+
+xml파일에 다음을 기술
+<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+    <property name="prefix" value="/WEB-INF/"></property>
+    <property name="suffix" value=".jsp"></property>
+</bean>
+
+//컨트롤러에서 다음을 사용 가능
+ModelAndView mav = new ModelAndView();
+mav.setViewName("index");	///WEB-INF/index.jsp를 찾는다
+
+===============================================================================

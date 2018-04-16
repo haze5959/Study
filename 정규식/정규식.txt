@@ -1,0 +1,36 @@
+//선언
+var re = /ab+c/;
+
+
+
+var regExp = /정규표현식/[Flag];
+
+//flag의 종류
+g - 문자열 내의 모든패턴을 찾습니다.
+i - 문자열의 대소문자를 구별하지 않습니다
+m - 문자열 행이 바뀌어도 찾습니다
+
+
+
+
+
+
+=================================================================================================
+Method	Description
+exec	일치하는 문자열을 찾는 RegExp 메소드입니다. 정보를 가지고 있는 배열을 반환합니다.
+test	일치하는 문자열을 검사하는 RegExp 메소드 입니다. true 나 false를 반환합니다.
+match	일치하는 문자열을 찾는 String 메소드입니다. 정보를 가지고 있는 배열을 반환하거나 일치하지 않는 부분을 null로 반환합니다.
+search	
+일치하는 문자열을 검사하는 String 메소드입니다. 일치하는 인덱스를 반환하거나 검색에 실패할 시 -1을 반환합니다.
+
+replace	일치하는 문자열을 찾는 String 메소드입니다. 일치하는 문자열을 replacement 로 대체합니다.
+split	A String method that uses a regular expression or a fixed string to break a string into an array of substrings.
+
+
+
+
+//정규식 테스트 사이트
+www.gethifi.com/tools/regex 
+
+이곳저곳 필요한 정규식들
+https://blog.outsider.ne.kr/360
