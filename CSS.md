@@ -157,6 +157,6 @@ span:hover + div {
 }
 ```
 
-![ddd](/Users/ogkwon/Desktop/study/files/vmax.png)
+![](https://github.com/haze5959/Study/tree/master/files/vmax.png)
 
-![ddd](/Users/ogkwon/Desktop/study/files/vmin.png)
+![](https://github.com/haze5959/Study/tree/master/files/vmin.png)
