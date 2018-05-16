@@ -20,6 +20,10 @@ git commit -m [설명]
 git log
 - 커밋 된 내역 볼 수 있음
 
+git reset --hard origin/master  
+
+- 오버라이드 업데이트
+
 
 
 
