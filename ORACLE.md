@@ -76,3 +76,34 @@
   ```
   SELECT INSTANCE FROM v$thread;
   ```
+
+
+
+## PROCEDURE
+
+- ###### 정의
+
+  ```sql
+  CREATE OR REPLACE PROCEDURE myproc (id IN NUMBER, name OUT VARCHAR2) AS 
+  BEGIN 
+  	SELECT last_name INTO name FROM employees WHERE employee_id = id; 
+  END;
+  ```
+
+  
+
+- 사용
+
+  ```typescript
+  connection.execute(
+    "BEGIN myproc(:id, :name); END;",
+    {  // bind variables
+      id:   159,
+      name: { dir: oracledb.BIND_OUT, type: oracledb.STRING, maxSize: 40 },
+    },
+    function (err, result) {
+      if (err) { console.error(err.message); return; }
+      console.log(result.outBinds);
+    });
+  ```
+
