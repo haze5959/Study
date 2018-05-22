@@ -24,6 +24,10 @@ git reset --hard origin/master
 
 - 오버라이드 업데이트
 
+git checkout .
+
+- 수정사항 revert
+
 
 
 
