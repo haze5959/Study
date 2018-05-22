@@ -1,6 +1,6 @@
 # Promise
 
-#### 프로미스란 이런식으로 채택(resolve)하거나 거절(reject)하는 것을 콜백하는 간단한 것이다.
+#### 프로미스란 이런식으로 채택(resolve)하거나 거절(reject)로 콜백지옥을 없애기 쉽게 한 것
 
 ```typescript
 function readFileAsync(filename: string): Promise<any> {
@@ -71,3 +71,44 @@ Promise.race([task1, task2]).then(function(value) {
   // Both resolve, but task1 resolves faster
 });
 ```
+
+
+앵귤러에서 쓴 통신 프로미스
+
+```typescript
+new Promise((resolve, reject) => {
+        this.httpService.postComment(paramJson).subscribe(
+          data => {
+            console.log(JSON.stringify(data));
+            if(data.result){  //성공
+              resolve();
+            } else {  //실패
+              reject(data.message);
+            }
+          },
+          error => {
+            console.log(error);
+            reject("서버가 불안정합니다.");
+          }
+        );
+      }).then(() => { //댓글 새로 가져오기
+        this.httpService.getComments(this.post['postsID']).subscribe(
+          data => {
+            console.log(JSON.stringify(data));
+            if(data.length > 0){  //성공
+              this.comments = data[0];
+              resolve();
+            } else {  //실패
+              throw("서버가 불안정합니다.");
+            }
+          },
+          error => {
+            console.log(error);
+            this.comments = [this.httpService.errorComment];
+          }
+        );
+      }).catch(err => {
+        alert(err);
+      });
+```
+

@@ -39,7 +39,13 @@
   select * from tabs;
   ```
 
-  ​
+- 컬럼 목록 조회하기
+
+  ```
+  select column_name from user_tab_columns where table_name = 'POSTS'; 
+  ```
+
+  
 
 ## 계정 관련
 
