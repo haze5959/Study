@@ -113,3 +113,29 @@
     });
   ```
 
+
+
+## 자동 증가 SEQUENCE
+
+```sql
+CREATE SEQUENCE SEQ_ID INCREMENT BY 1 START WITH 10000;
+```
+
+```sql
+CREATE SEQUENCE sequence_name 
+       [START WITH n]
+       [INCREMENT BY n]
+       [MAXVALUE n | NOMAXVALUE]
+       [MINVALUE n | NOMINVALUE]
+       [CYCLE | NOCYCLE]
+```
+
+- 사용법
+
+```sql
+INSERT INTO MYTABLE VALUES( SEQ_ID.NEXTVAL, '홍길동');
+
+       -- CURRVAL : 현재 값을 반환 합니다.
+       -- NEXTVAL : 현재 시퀀스값의 다음 값을 반환 합니다.
+```
+
