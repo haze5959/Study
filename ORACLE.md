@@ -12,6 +12,11 @@
 
   ```
   startup;
+  
+  //리스너 시작
+  lsnrctl start
+  //리스너 상태확인
+  lsnrctl service
   ```
 
 - 계정 확인
