@@ -107,3 +107,20 @@ ngOnDestroy
 ```
 
    
+
+### CLI 명령어
+
+```
+//새 프로젝트
+$ng new my-project
+
+//파일 생성
+$ng generate [스키마] [name]	
+//스미카 - class, component, directive, enum, guard, interface, module, pipe, service
+
+//테스트
+$ng serve
+
+//배포
+$ng build --prod
+```

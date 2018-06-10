@@ -29,14 +29,22 @@
 ### 파일 시스템
 
 - df -m : 파일시스템 구조와 용량을 메가바이트 단위로
+
 - du : 파일 사이즈 보기
   - -s : 총 사이즈 보기
+
+- 
+  unzip 압축파일.zip -d ./폴더명 : 압축풀기
+
 
 
 
 ### 탐색
 
 - find : 주어진 파일명과 동일한 파일을 찾고 경로를 출력
+  - find / -name 'ab*'
+  - find / -name '.bash*' -ls  : ls형식으로 출력
+  - find / -name 'et*' -type d  : et로 시작하는 디렉토리 찾기
 
 
 
@@ -110,3 +118,37 @@ systemctl daemon-reload : 서비스 파일 추가한거 적용
 - systemctl enable [시스템명] : 부팅시 서비스 시작( != disable)
 - systemctl list-unit-files —type=service : 서비스 목록보기(그냥 systemctl은 현재 작동중인 것만)
 - systemctl —failed : 부팅시 실행에 실패한 서비스 목록
+
+
+
+## nginx 설정
+
+설정파일 위치 - /etc/nginx/conf.d/main.conf
+
+```
+server {
+
+    # 포트번호. 일반적으로 80번 포트로 되어있습니다.
+    listen       80;
+
+    # 연결할 도메인 이름. 이때 도메인은 서버ip로 연결되어있어야합니다.
+    server_name  www.conory.com;
+
+    # 웹 루트 디렉토리 지정. 호스트에 접속시 /home/www/에 있는 파일들이 메인이 됩니다.
+    root         /home/www;
+
+    # 인덱스 파일 지정. 호스트에 접속시 /home/www/index.php,index.html,index.htm 이 파일이 있으면 먼저 불러옵니다.
+    index index.php  index.html index.htm;
+
+
+
+    # 자체적인 에러페이지를 만들 수 있습니다. 없다면 아래부분은 제거해주세요.
+    error_page 401 /error_401.html;
+    error_page 403 /error_403.html;
+    }
+}
+```
+
+설정 반영 - systemctl reload nginx
+
+컨텐츠 타입 설정해줘야 403에러 안뜬다 - chcon -Rt httpd_sys_content_t 
