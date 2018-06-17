@@ -2,6 +2,12 @@
 
 싱글스레드라서 막 쓰면 안된다.
 
+
+
+설치 유무 판별
+
+redis-cli ping
+
 ### Data type
 
 
