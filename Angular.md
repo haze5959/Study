@@ -4,6 +4,7 @@
 
 ```typescript
 ngOnInit() {  }
+ngAfterViewInit()
 ngOnChanges()
 ngOnDestroy
 ```
