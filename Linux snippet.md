@@ -151,4 +151,4 @@ server {
 
 설정 반영 - systemctl reload nginx
 
-컨텐츠 타입 설정해줘야 403에러 안뜬다 - chcon -Rt httpd_sys_content_t 
+컨텐츠 타입 설정해줘야 403에러 안뜬다 - chcon -Rt httpd_sys_content_t
