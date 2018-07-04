@@ -36,6 +36,26 @@ let apps = Array<String>()
 let apps = [String]()
 ```
 
+- 딕셔너리
+
+```
+var responseMessages = [200: "OK",
+                      403: "Access forbidden",
+                      404: "File not found",
+                      500: "Internal server error"]
+                      
+let httpResponseCodes = [200, 403, 301]
+for code in httpResponseCodes {
+    if let message = responseMessages[code] {
+        print("Response \(code): \(message)")
+    } else {
+        print("Unknown response \(code)")
+    }
+}                    
+                      
+var emptyDict: [String: String] = [:]
+```
+
 - 함수
 
 ```
