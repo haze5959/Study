@@ -153,6 +153,23 @@ value = 10
 
 
 
+### guard 사용법
+
+```swift
+가드문에 걸리면 그 안의 조건문이 실행된다! 말그대로 가드!
+var myVar = 10
+
+func checkNumGuard(X:Int?) {
+    guard let X = X where X != 10 else {
+        print("Error: X is 10!")
+        return
+    }
+    print ("all this code will be executed when X is not 10")
+}
+ 
+checkNumGuard(myVar) // 출력: Error: X is 10!
+```
+
 ### class
 
 ```
@@ -418,3 +435,8 @@ Observable.zip(Observable1, Observable2){ (sum: Int, text: String) -> String in
 //다만 UI작업을 subscribe에서 처리할 경우 메인쓰레드에서 이루어져야 하는데 그럴경우 .observeOn(MainScheduler.instance)를 subscribeOn 밑에다 추가해준다
 ```
 
+Observable 제공 기능들! 
+
+오리엔테이션 변경 - UIDevice.rx.orientation
+
+노티피케이션을 옵져버블로 변경 - NotificationCenter.default.addObserver(forName:.UIKeyboardDidChangeFrame){noti in 핸들링~}
