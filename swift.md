@@ -11,6 +11,10 @@ var - 변수선언
 변수 초기화 방법(선언과 초기화를 따로할 경우 타입을 지정해 줘야한다.)
 var company : String
 company = "Apple"
+
+for문
+for (index, element:myTask) in self.taskData.enumerated() {
+}
 ```
 
 - 타입변환
