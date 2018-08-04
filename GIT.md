@@ -59,3 +59,12 @@ git diff
 
 git checkout
 - 커밋하기 전으로 바꾸기 / git checkout [파일]
+
+
+
+## 저장소꺼를 강제로 오버라이트하기
+
+```
+git fetch --all	//저장소 코드를 다운로드만! 한다
+git reset --hard origin/master	//다운 된 코드들로 리셋
+```
