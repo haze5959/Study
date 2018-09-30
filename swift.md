@@ -137,6 +137,40 @@ let arr2 = arr1.map { $0 * 2 } // [2, 6, 12, 4, 14, 18]
 
 
 
+#### @escaping 예시
+
+```
+// 함수 외부에 클로저를 저장하는 예시 
+// 클로저를 저장하는 배열 
+var completionHandlers: [() -> Void] = [] 
+func withEscaping(completion: @escaping () -> Void) { 
+// 함수 밖에 있는 completionHandlers 배열에 해당 클로저를 저장 	
+	completionHandlers.append(completion) 
+} 
+
+func withoutEscaping(completion: () -> Void) { 
+	completion() 
+}
+
+class MyClass { 
+	var x = 10 
+	func callFunc() { 
+		withEscaping { self.x = 100 } 
+		withoutEscaping { x = 200 } 
+	} 
+} 
+let mc = MyClass() 
+mc.callFunc() 
+print(mc.x) 
+completionHandlers.first?() 
+print(mc.x) 
+// 결과 
+// 200 
+// 100
+```
+
+
+
 ### Getter Setter
 
 ```
@@ -309,6 +343,38 @@ str.reversed() // 요세하녕안
 //0~100까지 범위가 맞다면
 if 0...100 ~= number {  
   print("result2 = \(number)")
+}
+```
+
+
+
+### Codable
+
+클래스나 구조체를 JSON으로 인코딩 디코딩 간편하게 해주기 위한것으로
+
+클래스 인스턴스를 NSUserDefault 같은 곳에 저장할 때 유용하다!
+
+```
+//구조체를 NSUserDefault에 저장하고 빼내는 예제
+struct Person: Codable {
+    var name: String
+}
+
+let taylor = Person(name: "Taylor Swift")
+
+//인코딩
+let encoder = JSONEncoder()
+if let encoded = try? encoder.encode(taylor) {
+    let defaults = UserDefaults.standard
+    defaults.set(encoded, forKey: "SavedPerson")
+}
+
+//디코딩
+if let savedPerson = defaults.object(forKey: "SavedPerson") as? Data {
+    let decoder = JSONDecoder()
+    if let loadedPerson = try? decoder.decode(Person.self, from: savedPerson) {
+        print(loadedPerson.name)
+    }
 }
 ```
 
