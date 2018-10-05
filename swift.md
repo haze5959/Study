@@ -173,7 +173,7 @@ print(mc.x)
 
 ### Getter Setter
 
-```
+```swift
 var _v:Int = 0
 var value:Int {
     get {//oldValue 값도 쓸 수 있음
@@ -182,6 +182,14 @@ var value:Int {
     set {
         _v = newValue
         print("_v=\(_v)") //_v=10
+    }
+    didSet {
+        switch (value) {
+            case 0:
+            case 2:
+            default:
+            	break;
+        }
     }
 }
 
