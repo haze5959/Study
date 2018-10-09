@@ -372,7 +372,9 @@ class Food {
 }
 ```
 
-![initializersExample01](/Users/ogkwon/Desktop/Study/initializersExample01_2x.png)
+![initializersExample01](
+        Study/initializersExample01_2x.png
+      )
 
 
 
