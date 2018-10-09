@@ -356,6 +356,26 @@ if 0...100 ~= number {
 
 
 
+### convenience initialization
+
+```swift
+class Food { 
+    var name: String 
+    
+    init(name: String) { 
+        self.name = name 
+    } 
+    
+    convenience init() {
+        self.init(name: "[Unnamed]") 
+    } 
+}
+```
+
+![initializersExample01](/Users/ogkwon/Desktop/Study/initializersExample01_2x.png)
+
+
+
 ### Codable
 
 클래스나 구조체를 JSON으로 인코딩 디코딩 간편하게 해주기 위한것으로
