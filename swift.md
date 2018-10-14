@@ -7,7 +7,7 @@ let - 상수선언
 var - 변수선언
 ```
 
-```
+```swift
 변수 초기화 방법(선언과 초기화를 따로할 경우 타입을 지정해 줘야한다.)
 var company : String
 company = "Apple"
@@ -19,7 +19,7 @@ for (index, element:myTask) in self.taskData.enumerated() {
 
 - 타입변환
 
-```
+```swift
 var grade = "Your grade is "
 var gradePoint = 99
 var gradeTotal = grade + String(gradePoint)
@@ -27,13 +27,13 @@ var gradeTotal = grade + String(gradePoint)
 
 - 문자열 템플릿
 
-```
+```swift
 let profile = “\(name)님은 \(birthDay)일이 생일입니다.”
 ```
 
 - 배열
 
-```
+```swift
 var 배열명 = ["첫번째", "두번째"] 
 //배열 선언(둘이 같음)
 let apps = Array<String>()
@@ -42,7 +42,7 @@ let apps = [String]()
 
 - 딕셔너리
 
-```
+```swift
 var responseMessages = [200: "OK",
                       403: "Access forbidden",
                       404: "File not found",
@@ -62,7 +62,7 @@ var emptyDict: [String: String] = [:]
 
 - 함수
 
-```
+```swift
 func call(value:Int=333) -> String {
     print(value)
     return "OK"
@@ -90,7 +90,7 @@ sum(3, 4, 5)
 
 - 타입 
 
-```
+```swift
 //어떤 타입이든 변신 가능한 Any, AnyObject
 let anyNumber: Any = 10
 let anyString: Any = "Hi"
@@ -108,7 +108,7 @@ print(anyNumber is String) // false
 
 ### 튜플
 
-```
+```swift
 func get() -> (result1:String, result2:Int) {
     return ("AAA", 111) // 튜플로 반환
 }
@@ -120,13 +120,13 @@ print(tup.result1, tup.result2) // AAA 111
 
 ### 클로저
 
-```
+```swift
 // 클로져 (함수의 'func sumFunc' 빼고, in 추가)
 var sumClosure = {(a, b) -> Int in return a + b}
 print(sumClosure(1, 2))
 
 //함수안의 함수
-func helloGenerator(message: String) -> (String, String) -> String {
+func helloGenerator(message: String) -> (String, String) -> String {swift
   return { $1 + $0 + message }
 }
 
@@ -139,7 +139,7 @@ let arr2 = arr1.map { $0 * 2 } // [2, 6, 12, 4, 14, 18]
 
 #### @escaping 예시
 
-```
+```swift
 // 함수 외부에 클로저를 저장하는 예시 
 // 클로저를 저장하는 배열 
 var completionHandlers: [() -> Void] = [] 
@@ -218,7 +218,7 @@ checkNumGuard(myVar) // 출력: Error: X is 10!
 
 ### class
 
-```
+```swift
 class Person {
     // 프로퍼티
     class var mom:String {
@@ -269,7 +269,7 @@ anna.sing()
 
 ### Enum
 
-```
+```swift
 enum Month: Int {
   case january = 1
   case february
@@ -326,7 +326,7 @@ default:
 
 ### Extension
 
-```
+```swift
 //카테고리 같은거임
 extension String {
   var length: Int {
@@ -347,7 +347,7 @@ str.reversed() // 요세하녕안
 
 ### 조낸 이상한 문법
 
-```
+```swift
 //0~100까지 범위가 맞다면
 if 0...100 ~= number {  
   print("result2 = \(number)")
@@ -384,7 +384,7 @@ class Food {
 
 클래스 인스턴스를 NSUserDefault 같은 곳에 저장할 때 유용하다!
 
-```
+```swift
 //구조체를 NSUserDefault에 저장하고 빼내는 예제
 struct Person: Codable {
     var name: String
@@ -410,6 +410,31 @@ if let savedPerson = defaults.object(forKey: "SavedPerson") as? Data {
 
 
 
+### NSLayoutAnchor
+
+```swift
+NSLayoutConstraint(item: subview, attribute: .Leading,
+                   relatedBy: .Equal,
+                   toItem: view,
+                   attribute: .LeadingMargin,
+                   multiplier: 1.0,
+                   constant: 0.0).active = true
+
+NSLayoutConstraint(item: subview,
+                   attribute: .Trailing,
+                   relatedBy: .Equal,
+                   toItem: view,
+                   attribute: .TrailingMargin,
+                   multiplier: 1.0,
+                   constant: 0.0).active = true 
+
+// 위와 아래가 같다!! iOS9부터 사용 가능!
+// Creating the same constraints using Layout Anchors 
+let margins = view.layoutMarginsGuide subview.leadingAnchor.constraintEqualToAnchor(margins.leadingAnchor).active = true subview.trailingAnchor.constraintEqualToAnchor(margins.trailingAnchor).active = true
+```
+
+
+
 # RxSwift
 
 - 함수형의 간단 명료 정의
@@ -424,7 +449,7 @@ if let savedPerson = defaults.object(forKey: "SavedPerson") as? Data {
 
 - 기본 문법
 
-  ```
+  ```swift
   - let data = [“1”, “2”, “3”, “4”, “5”, “6”]
     				.map({ (item) -> Int in
     					guard let value = Int(item) else { return 0 }
@@ -451,11 +476,11 @@ if let savedPerson = defaults.object(forKey: "SavedPerson") as? Data {
   }
   ```
 
-  ​
+  
 
 - 옵져버블 기본
 
-```
+```swift
 Observable.just(“Helllo World!”)
 		.subscribeNext{ value in
 				print(value);
@@ -475,7 +500,7 @@ Observable.create<String>{ observer in
 
 - 옵져버블 옵션
 
-```
+```swift
 //중복 값 제거
 .distinctUntilChanged()
 
@@ -485,7 +510,7 @@ Observable.create<String>{ observer in
 
 - 로그인 화면 예시
 
-```
+```swift
 let idObservable = idTxtField.rx_text.asObservable().map{ $0.isEmpty }
 let pwObservable = pwObservable.rx_text.asObservable().map{ $0.isEmpty }
 Observable
@@ -504,7 +529,7 @@ Observable
 
 - 옵져버블 동시처리
 
-```
+```swift
 //zip은 두개가 모두 처리될 때까지 기다린다.
 let Observable1 = (0…100000)
 			.toObservable()
@@ -540,3 +565,82 @@ Observable 제공 기능들!
 오리엔테이션 변경 - UIDevice.rx.orientation
 
 노티피케이션을 옵져버블로 변경 - NotificationCenter.default.addObserver(forName:.UIKeyboardDidChangeFrame){noti in 핸들링~}
+
+
+
+### RXSwift  UI Event
+
+```swift
+button.rx.tap
+.debounce(0.5, scheduler:MainScheduler.instance)	//0.5초 동안 여러번 눌리지 않게
+.do(onNext: {	
+    print("눌렸다!!")
+})
+.bindNext(method)
+.addDisposableTo(disposeBag)
+```
+
+
+
+### RXSwift  REST API
+
+```swift
+API.default.request(.getPage)	//Observable<JSON>
+.subscribeOn(SerialDispatchQueueScheduler(qos: .backgound))	//백그라운드에서 수행
+.retry(2)	//실패했을 경우 2번까지 수행한다
+.observeOn(ConcurrentDispatchQueueScheduler(qos: .backgound))	//결과 맵핑등을 백그라운드에서 수행
+.map(Page.init)	//Observable<Page>
+.observeOn(MainScheduler.instance)	//UI는 메인스레드에서 그릴 수 있도록
+.do(
+    onNext: {	print("성공!!: \($0)")},
+    onError: {	print("실패!!": \(error))},
+    onCompleted: {	print("완료!!")}
+)
+.bindNext(display)
+.addDisposableTo(disposeBag)
+```
+
+
+
+### RXSwift  Property Binding
+
+```swift
+let isReloading: Variable<Bool> = Variable(false)
+
+func setup() {
+    isReloading.asObservable()
+    .map { !$0 }
+    .observeOn(MainScheduler.instance)
+    .subscribe(onNext: {[weak self] enabled in
+                       self?.reloadButton.isEnabled = enabled
+                       })
+    // == bindTo(reloadButton.rx.isEnabled)
+    .addDisposableTo(disposeBag)
+}
+```
+
+
+
+### RXSwift  Merge Operator
+
+둘 중에 하나만 발생해도 이밴트 호출
+
+```swift
+Observable.from([
+    옵저버블.map{!$0},
+    버튼.rx.tap
+]).merge()
+.bindTo(쏼라쏼라...)
+```
+
+
+
+### RXSwift Operator and so on...
+
+```swift
+Observable()	//-f-t-f-t-f-t-f
+.filter { $0 == false }	//-f-_-f-_-f-_-f
+.skip(1)	//-_-_-f-_-f-_-f
+.take(1)	//-_-_-f
+```
+
