@@ -431,6 +431,13 @@ NSLayoutConstraint(item: subview,
 // 위와 아래가 같다!! iOS9부터 사용 가능!
 // Creating the same constraints using Layout Anchors 
 let margins = view.layoutMarginsGuide subview.leadingAnchor.constraintEqualToAnchor(margins.leadingAnchor).active = true subview.trailingAnchor.constraintEqualToAnchor(margins.trailingAnchor).active = true
+
+//가운데 정렬
+indicator.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
+indicator.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
+
+//가로 세로 값 넣기
+containerView.widthAnchor.constraintLessThanOrEqualToConstant(320.0).active = true
 ```
 
 
