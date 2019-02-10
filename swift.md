@@ -183,7 +183,7 @@ var value:Int {
         _v = newValue
         print("_v=\(_v)") //_v=10
     }
-    didSet {
+    didSet {	//willSet 도 있음
         switch (value) {
             case 0:
             case 2:
@@ -215,6 +215,42 @@ func checkNumGuard(X:Int?) {
  
 checkNumGuard(myVar) // 출력: Error: X is 10!
 ```
+
+
+
+### Struct    
+
+```swift
+struct Sample {
+    // 가변 프로퍼티
+    var mutableProperty: Int = 100
+    // 불변 프로퍼티
+    let immutableProperty: Int = 100
+
+    // 타입 프로퍼티
+    static var typeProperty: Int = 100
+
+    // 인스턴스 메서드
+    func instanceMethod() {
+        print("instance method")
+    }
+
+    // 타입 메서드
+    static func typeMethod() {
+        print("type method")
+    }
+    
+    // 키워드도 `로 묶어주면 이름으로 사용할 수 있습니다
+    var `class`: String = "Swift"
+    // 가변 프로퍼티
+    var name: String = "unknown"
+    
+    func selfIntroduce() {
+        print("저는 \(self.class)반 \(name)입니다")
+    }
+}
+```
+
 
 ### class
 
@@ -373,8 +409,8 @@ class Food {
 ```
 
 ![initializersExample01](
-        Study/initializersExample01_2x.png
-      )
+​        Study/initializersExample01_2x.png
+​      )
 
 
 
@@ -468,10 +504,10 @@ containerView.widthAnchor.constraintLessThanOrEqualToConstant(320.0).active = tr
     				, reduce(0) { (a, b) -> Int in
     					return a + b
     				}
-
+  
   //1부터 10까지 더하기
   print( (1…10).reduce(0){$0 + $1} );
-
+  
   //조낸 줄이기
   (1…10)
   .filter{
@@ -482,8 +518,6 @@ containerView.widthAnchor.constraintLessThanOrEqualToConstant(320.0).active = tr
   	$0 + $1	//300
   }
   ```
-
-  
 
 - 옵져버블 기본
 
@@ -649,5 +683,279 @@ Observable()	//-f-t-f-t-f-t-f
 .filter { $0 == false }	//-f-_-f-_-f-_-f
 .skip(1)	//-_-_-f-_-f-_-f
 .take(1)	//-_-_-f
+```
+
+
+
+# 코딩 테스트 자주 사용
+
+```swift
+var input = Int(readLine()!)!	//값 입력!
+
+let stringArray = readLine(strippingNewline: true)!.characters
+.split {$0 == ” “}
+.map (String.init)
+
+let people = ["yagom": 10, "eric": 15, "mike": 12]
+
+// Dictionary의 item은 key와 value로 구성된 튜플 타입입니다
+for (name, age) in people {
+    print("\(name): \(age)")
+}
+
+for i in (0..<10).reverse() {
+    //거꾸로
+}
+```
+
+
+
+#### 약수 구하기
+
+```swift
+var input = Int(readLine()!)!
+var resultArr = [String]()
+
+for i in 1..<(input+1) {
+    if input % i == 0 {
+        resultArr.append("\(i)")
+    }
+}
+
+print(resultArr.joined(separator: " "))
+```
+
+
+
+#### 정렬 후 최소 빈 최소값 구하기
+
+```swift
+public func solution(_ A : inout [Int]) -> Int {
+    // write your code in Swift 4.2.1 (Linux)
+    var ministNum = 1
+    A = A.sorted(by: { $0 < $1})//정렬 노필요ㅋㅋㅋㅋ
+
+    for i in 0...A.count {
+        // print("test: \(ministNum)")
+        for element in A {
+            if ministNum == element {
+                ministNum += 1
+                break;
+            }
+        }
+    }
+
+    return ministNum
+}
+```
+
+
+```swift
+import UIKit
+
+//없는 작은값 찾기
+public func solution(_ A : inout [Int]) -> Int {
+    // write your code in Swift 4.2.1 (Linux)
+
+    var ministNum = 1
+//    A = A.sorted(by: { $0 < $1})
+
+    for i in 0...A.count {
+        print("test: \(ministNum)")
+        for element in A {
+            if ministNum == element {
+                ministNum += 1
+                break;
+            }
+        }
+    }
+
+    return ministNum
+}
+
+var test = [2, 5, 1, 3, 7]
+
+print(solution(&test))
+
+
+//=========================================================================
+//2진수를 그 뭐냐..
+public func solution(_ S : inout String) -> Int {
+    // write your code in Swift 4.2.1 (Linux)
+    var step = 0
+
+    let d2Optional = Int(S, radix: 2)
+
+    guard var d2 = d2Optional else { return -1 }    //예외 상황
+
+    while d2 > 0 {
+        print(d2)
+        if d2 % 2 == 0 {    //짝수
+            d2 = d2 / 2
+        } else {    //홀수
+            d2 = d2 - 1
+        }
+
+        step += 1
+    }
+
+    return step
+}
+
+var test = "011100"
+
+print(solution(&test))
+
+
+//=========================================================================
+//이미지 리네임 문제
+public func solution(_ S : inout String) -> String {
+    // write your code in Swift 4.2.1 (Linux)
+
+    //지역 개수 구하기
+    var areaTimeDic: [String: Array<String>]  = [:]
+
+    let fileArr = S.split(separator: "\n")
+
+
+    for line in fileArr {
+
+        //예외처리 부분
+        let argArr = line.split(separator: ",")
+        guard argArr.count > 2 else { break }
+
+        let area = argArr[1].decomposedStringWithCanonicalMapping.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        let areaTimeArr = areaTimeDic[area]
+        if  areaTimeArr != nil {
+            var areaTimeArr = areaTimeDic[area]!
+            areaTimeArr.append(argArr[2].decomposedStringWithCanonicalMapping.trimmingCharacters(in: .whitespacesAndNewlines))
+            areaTimeDic.updateValue(areaTimeArr, forKey: area)
+        } else {    //최초 도시일 경우
+            let newAreaArr = [argArr[2].decomposedStringWithCanonicalMapping.trimmingCharacters(in: .whitespacesAndNewlines)]
+            areaTimeDic.updateValue(newAreaArr, forKey: area)
+        }
+    }
+
+//    print(areaTimeDic)
+    //결과 도출 부분
+    var resultArr = [String]()
+    var areaNumDic: [String: Int]  = [:]
+    for line in fileArr {
+        //예외처리 부분
+        let argArr = line.split(separator: ",")
+        guard argArr.count > 2 else { break }
+
+
+        let fileName = argArr[0].decomposedStringWithCanonicalMapping
+        guard let fileExtention = fileName.split(separator: ".").last else { break }
+        let area = argArr[1].decomposedStringWithCanonicalMapping.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        guard let areaTimeArr = areaTimeDic[area] else { break }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+
+        let index = areaNumDic[area] ?? 0
+        let areaTime = areaTimeArr[index]
+        let thisAreaTime = dateFormatter.date(from: areaTime)
+
+        var seq = 1
+        for areaTime in areaTimeArr {
+            let time = dateFormatter.date(from: areaTime)
+
+            if thisAreaTime!.timeIntervalSince1970 > time!.timeIntervalSince1970 {
+                seq += 1
+            }
+        }
+
+        if let areaNum = areaNumDic[area] {
+            areaNumDic.updateValue((areaNum + 1), forKey: area)
+        } else {
+            areaNumDic.updateValue(1, forKey: area)
+        }
+
+        let areaCount = areaTimeArr.count
+        if areaCount >= 10 {
+            resultArr.append("\(area)\(String(format: "%02d", seq)).\(fileExtention)")
+        } else {
+            resultArr.append("\(area)\(seq).\(fileExtention)")
+        }
+
+    }
+
+    return resultArr.joined(separator: "\n")
+}
+
+
+var test = """
+photo.jpg, Warsaw, 2013-09-05 14:08:15
+john.png, London, 2015-06-20 15:13:22
+myFriends.png, Warsaw, 2013-09-05 14:07:13
+Eiffel.jpg, Paris, 2015-07-23 08:03:02
+pisatower.jpg, Paris, 2015-07-22 23:59:59
+BOB.jpg, London, 2015-08-05 00:02:03
+notredame.png, Paris, 2015-09-01 12:00:00
+me.jpg, Warsaw, 2013-09-06 15:40:22
+a.png, Warsaw, 2016-02-13 13:33:50
+b.jpg, Warsaw, 2016-01-02 15:12:22
+c.jpg, Warsaw, 2016-01-02 14:34:30
+d.jpg, Warsaw, 2016-01-02 15:15:01
+e.png, Warsaw, 2016-01-02 09:49:09
+f.png, Warsaw, 2016-01-02 10:55:32
+g.jpg, Warsaw, 2016-02-29 22:13:11
+"""
+
+print(solution(&test))
+
+//=========================================================================
+//엘레베이터 몇번 멈추냐 문제
+
+public func solution(_ A : inout [Int], _ B : inout [Int], _ M : Int, _ X : Int, _ Y : Int) -> Int {
+    // write your code in Swift 4.2.1 (Linux)
+    var result = 0
+    
+    while !A.isEmpty {
+//        print(A)
+        var allWeight = 0
+        var takePeople = 0
+        for weight in A {
+            if (allWeight + weight) > Y {   //무게 제한
+                break
+            }
+            
+            if takePeople > X { //탑승인원 제한
+                break
+            }
+            
+            allWeight += weight
+            takePeople += 1
+        }
+        
+//        print("weight:\(allWeight)")
+//        print("takePeople:\(takePeople)")
+        
+        var floors = Set<Int>()   //중복층수 제거를 위해 set tkdyd
+        
+        for i in 0..<takePeople {
+            floors.insert((B[0]))
+            A.removeFirst() //내린 사람들 삭제
+            B.removeFirst()
+        }
+        
+//        print("floors:\(floors)")
+        
+        result += floors.count
+//        print("result:\(result)")
+    }
+
+    return result
+}
+
+var A = [40, 40, 100, 80, 20]
+var B = [3, 3, 2, 2, 3]
+
+
+print(solution(&A, &B, 3, 5, 200))
+
 ```
 
