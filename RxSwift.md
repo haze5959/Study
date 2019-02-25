@@ -219,9 +219,24 @@ Observable()	//-f-t-f-t-f-t-f
 reduce는 합쳐지는 값을 한번에 리턴
 scan은 합쳐지는 동중의 값을 매번 리턴
 
+```swift
+// 1부터 9단 찍기, flatMap 활용
+Observable.range(start: 1, count: 9)
+        .flatMap { dan in
+        Observable.range(start: 1, count: 9).map({ row in
+        return "\(dan) * \(row) = \(dan * row)\n"
+    }).reduce("\(dan)단 출력\n", accumulator: { "arg1: \($0) arg2: \($1)" })
+}
+.subscribe(onNext:{ print($0)},
+  		   onError:{ print($0) },
+  		   onCompleted:{ print("onCompleted")}
+)
+.disposed(by: disposeBag)
+```
 
 
-### zip과 merge 차이점
+
+### zip, merge, concat 차이점
 
 ```swift
 let alphabetFromAToE = Observable.from(["a", "b", "c", "d", "e"])
@@ -256,17 +271,35 @@ d
 4
 e
 5
+
+//merge는 둘 중 하나라도 이벤트가 생기면 뿌려준다.
+Observable.concat(alphabetFromAToE, numberFrom1To5)
+.subscribe(onNext:{ print($0) },
+	onError:{ print($0) },
+	onCompleted:{ print("onCompleted") })
+.disposed(by: disposeBag)
+
+a
+b
+c
+d
+e
+1
+2
+3
+4
+5
 ```
 
 
 
 ### flatMap
 
-옵져버블들을 하나의 이벤트 호라이즌에 쭉 정렬
+옵져버블에서 발행한 아이템에 다른 옵져버블 아이템들을 붙입니다.
 
 ```swift
 Observable.from([1,2,3,4])
-.flatMap { Observable.from([$0, 77]) }
+.flatMap { Observable.from([77]) }
 .subscribe(onNext:{print($0)})
 .disposed(by: disposeBag)
 
@@ -278,9 +311,139 @@ Observable.from([1,2,3,4])
 77
 4
 77
+
+//비동기 예제
+let t = Observable<Int>
+    .interval(0.5, scheduler: MainScheduler.instance)	// 0.5초마다 발행
+    .take(4)		// 4번 발행
+
+t.flatMap { (x: Int) -> Observable<Int> in
+    let newTimer = Observable<Int>
+        .interval(0.2, scheduler: MainScheduler.instance)	// 0.2초마다 발행
+        .take(4)		// 4번 발행
+        .map { _ in x }		// 전달받은 아이템을 그대로 전달
+    return newTimer
+    }
+    .subscribe {
+        print("Result : \($0)")
+}
+
+	// Output
+	Result : Next(0)
+	Result : Next(0)
+	Result : Next(0)
+	Result : Next(1)
+	Result : Next(0)
+	Result : Next(1)
+	Result : Next(1)
+	Result : Next(2)
+	Result : Next(1)
+	Result : Next(2)
+	Result : Next(2)
+	Result : Next(3)
+	Result : Next(2)
+	Result : Next(3)
+	Result : Next(3)
+	Result : Next(3)
+	Result : Completed
 ```
 
 
+
+### flatMapFirst
+
+flatMap에서 한 아이템의 동작이 끝날 때 까지 새로 발행된 아이템을 무시합니다.
+
+```swift
+let t = Observable<Int>
+    .interval(0.5, scheduler: MainScheduler.instance)	// 0.5초마다 발행
+    .take(4)		// 4번 발행
+
+t.flatMapFirst { (x: Int) -> Observable<Int> in
+    let newTimer = Observable<Int>
+        .interval(0.2, scheduler: MainScheduler.instance)	// 0.2초마다 발행
+        .take(4)		// 4번 발행
+        .map { _ in x }		// 전달받은 아이템을 그대로 전달
+    return newTimer
+    }
+    .subscribe {
+        print("Result : \($0)")
+}
+
+	// Output
+	Result : Next(0)
+	Result : Next(0)
+	Result : Next(0)
+	Result : Next(0)
+	Result : Next(2)
+	Result : Next(2)
+	Result : Next(2)
+	Result : Next(2)
+	Result : Completed
+```
+
+
+### flatMapLatest
+
+flatMap에서 한 아이템이 동작 중일 경우 해당 아이템은 Dispose하고 새로운 아이템을 동작시킨다.
+
+```swift
+let t = Observable<Int>
+    .interval(0.5, scheduler: MainScheduler.instance)	// 0.5초마다 발행
+    .take(4)		// 4번 발행
+
+t.flatMapLatest { (x: Int) -> Observable<Int> in
+    let newTimer = Observable<Int>
+        .interval(0.2, scheduler: MainScheduler.instance)	// 0.2초마다 발행
+        .take(4)		// 4번 발행
+        .map { _ in x }		// 전달받은 아이템을 그대로 전달
+    return newTimer
+    }
+    .subscribe {
+        print("Result : \($0)")
+}
+
+	// Output
+	Result : Next(0)
+	Result : Next(0)
+	Result : Next(1)
+	Result : Next(1)
+	Result : Next(2)
+	Result : Next(2)
+	Result : Next(3)
+	Result : Next(3)
+	Result : Next(3)
+	Result : Next(3)
+	Result : Completed
+
+//좋은 예제 (키보트 칠 때 마다 기존통신 중단시키고 새 통신날리기)
+let results = query.rx.text
+    .flatMapLatest { query in
+        networkRequestAPI(query)
+    }
+```
+
+
+### Share
+
+하나의 옵져버블이 여러번 구독될 경우 원치않게 요청을 여러번하지 않게해준다.
+
+```swift
+let buttonAction = sendButton.rx.tap
+                .do{....}
+                .flamap{ _ in 
+                    provider.request(.Action)
+                        .filter(200)
+                        .map(...self)
+                        .asObservable()
+                }.do{...}
+
+
+button.subscribe{}// 작업1
+button.subscribe{}// 작업2
+
+//이런 경우 리퀘스트가 두번 일어나게 되는데 이때 share()을 써주면 하나의 request를 공유한다.
+```
 
 ### Driver
 
@@ -292,3 +455,49 @@ lazy var data: Driver<[Repository]> = {
         return Observable.of([Repository]()).asDriver(onErrorJustReturn: [])
     }()
 ```
+
+
+
+### Hot Observable
+
+구독을 먼저하고 그 다음에 이벤트를 발생시키는 방식이다.
+
+```swift
+print("===============================")
+print("\n\n")
+
+// frist subscribe
+subjectString.subscribe(onNext: { print("string frist: \($0)") },
+		onError: { print("string frist: \($0)") },
+		onCompleted: { print("string frist: onCompleted") }, onDisposed: { print("string frist: onDisposed")})
+	.disposed(by: disposeBag)
+
+subjectString.onNext("1")
+subjectString.onNext("2")
+subjectString.onNext("안녕하세요.")
+
+// second subscribe
+subjectString.subscribe(onNext: { print("string second: \($0)") },
+		onError: { print("string second: \($0)") },
+		onCompleted: { print("string second: onCompleted") }, onDisposed: { print("string second: onDisposed")})
+	.disposed(by: disposeBag)
+
+subjectString.onNext("3")
+subjectString.onNext("4")
+subjectString.onNext("반갑습니다.")
+// subjectString 은 뒤로가기 하면 string: onDisposed 가 호출 될 것 입니다.
+print("===============================")
+
+===============================
+string frist: 1
+string frist: 2
+string frist: 안녕하세요.
+string frist: 3
+string second: 3
+string frist: 4
+string second: 4
+string frist: 반갑습니다.
+string second: 반갑습니다.
+===============================
+```
+
