@@ -163,7 +163,7 @@ API.default.request(.getPage)	//Observable<JSON>
 
 
 
-### RXSwift  Property Binding
+### RXSwift  Property Binding (Depricated)
 
 ```swift
 let isReloading: Variable<Bool> = Variable(false)
@@ -178,6 +178,55 @@ func setup() {
     // == bindTo(reloadButton.rx.isEnabled)
     .addDisposableTo(disposeBag)
 }
+```
+
+
+
+### BehaviorRelay (Variable 대안)
+
+PublishRelay와 차이점은 구독이 생겼을 때 기존 이벤트를 실행시키냐 안시키냐의 차이
+
+```swift
+print("===============================")
+print("\n\n")
+
+let subject = BehaviorRelay(value: "Default String")
+
+// value : get-only-property
+print("value print : \(subject.value)")
+
+subject.accept("A") // 안나옴
+subject.accept("B")
+
+subject.asObservable()
+    .subscribe(onNext: { text in
+        print(text)
+    }).disposed(by: disposeBag)
+subject.accept("C")
+subject.accept("D (Last)")
+
+subject.asObservable()
+    .subscribe(onNext: { text in
+        print(text)
+    }).disposed(by: disposeBag)
+
+subject.accept("E")
+subject.accept("F")
+subject.accept("G")
+
+print("===============================")
+
+value print : Default String
+B
+C
+D (Last)
+D (Last)
+E
+E
+F
+F
+G
+G
 ```
 
 
@@ -211,6 +260,7 @@ Observable()	//-f-t-f-t-f-t-f
 
 `_.debounce`는 `_.throttle`과 마찬가지로 과다한 이벤트 로직 실행을 방지하기 위해 사용되는 함수이다. 
 바로 실행되는 `_.throttle`과는 달리 호출이 반복되는 동안에는 로직 실행을 방지하며, 호출이 멈춘 뒤, 설정한 시간이 지나고 나서야 로직을 실행하게 된다.
+주의점: 해당 시간동안 같은 스케쥴러의 모든 구독들이 실행 방지된다.
 
 
 
@@ -458,11 +508,15 @@ lazy var data: Driver<[Repository]> = {
 
 
 
-### Hot Observable
+## Hot Observable
+
+### PublishSubject
 
 구독을 먼저하고 그 다음에 이벤트를 발생시키는 방식이다.
 
 ```swift
+let subjectString = PublishSubject<String>()
+
 print("===============================")
 print("\n\n")
 
@@ -498,6 +552,57 @@ string frist: 4
 string second: 4
 string frist: 반갑습니다.
 string second: 반갑습니다.
+===============================
+```
+
+
+
+### ReplaySubject
+
+버퍼만큼 쌓아두고 그 다음 이벤트가 발생하면 버퍼에 쌓아둔 이벤트를 실행
+BehaviorSubject는 ReplaySubject에서 버퍼가 1인 것
+
+```swift
+// bufferSize 가 0이면 PublicSubject와 똑같습니다.
+let bufferSize = 2
+print("== bufferSize : \(bufferSize)")
+print("===============================")
+
+let subject = ReplaySubject<String>.create(bufferSize: bufferSize)
+subject.subscribe(onNext: { print("string frist: \($0)") },
+                  onError: { print("string frist: \($0)") },
+                  onCompleted: { print("string frist: onCompleted") }, 								  onDisposed: { print("string frist: onDisposed")})
+        .disposed(by: disposeBag)
+subject.onNext("A")
+subject.onNext("B")
+subject.onNext("C")
+subject.onNext("D")
+
+subject.subscribe(onNext: { print("string second: \($0)") },
+                  onError: { print("string second: \($0)") },
+                  onCompleted: { print("string second: onCompleted") }, 							  onDisposed: { print("string second: onDisposed")})
+    .disposed(by: disposeBag)
+
+subject.onNext("E")
+subject.onNext("F")
+subject.onNext("G")
+
+print("===============================")
+
+== bufferSize : 2
+===============================
+string frist: A
+string frist: B
+string frist: C
+string frist: D
+string second: C
+string second: D
+string frist: E
+string second: E
+string frist: F
+string second: F
+string frist: G
+string second: G
 ===============================
 ```
 
