@@ -467,6 +467,8 @@ if let savedPerson = defaults.object(forKey: "SavedPerson") as? Data {
         print(loadedPerson.name)
     }
 }
+
+//JSONEncoder 대신 PropertyListEncoder를 사용하여 plist로 관리할 수 있다.
 ```
 
 
