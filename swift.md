@@ -12,7 +12,7 @@ var - 변수선언
 var company : String
 company = "Apple"
 
-for문
+//for-in Index 사용하기!!
 for (index, element:myTask) in self.taskData.enumerated() {
 }
 ```
@@ -158,6 +158,21 @@ func helloGenerator(message: String) -> (String, String) -> String {swift
 //클로저 활용
 let arr1 = [1, 3, 6, 2, 7, 9]
 let arr2 = arr1.map { $0 * 2 } // [2, 6, 12, 4, 14, 18]
+
+
+func someFunctionThatTakesAClosure(closure: () -> Void) {
+    // function body goes here
+}
+
+// Here's how you call this function without using a trailing closure:
+someFunctionThatTakesAClosure(closure: {
+    // closure's body goes here
+})
+
+// Here's how you call this function with a trailing closure instead:
+someFunctionThatTakesAClosure() {
+    // trailing closure's body goes here
+}
 ```
 
 
