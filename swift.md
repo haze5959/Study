@@ -959,3 +959,77 @@ print(solution(&A, &B, 3, 5, 200))
 
 ```
 
+
+
+#### 사각형 크기 구하기
+
+```swift
+if let valuesStr = readLine() {
+  
+  let valueArr = valuesStr.split(separator: " ")
+
+  if valueArr.count == 2 {
+      let a:Int! = Int(valueArr[0]) // firstText is UITextField
+      let b:Int! = Int(valueArr[1]) // secondText is UITextField
+      let resultVal = a * b
+      print("\(resultVal)")
+  } else {
+      print("Invalid value")
+  }
+}
+```
+
+
+
+#### 커멘드로 움직이는 큐 구현하기
+
+```swift
+var maxCommandNum = 0
+var commandNum = 0
+var capacity = 0
+
+var que = [Substring]()
+
+func excuteComment(_ commendArr:Array<Substring>) -> String {
+  let commend = commendArr[0]
+  if commend == "OFFER" {
+      if commandNum < capacity {
+          if commendArr.count == 2 {
+              let inputVal = commendArr[1]
+              que.append(inputVal)
+              return "true"
+          } else {
+              return "false"
+          }
+      } else {
+          return "false"
+      }
+
+  } else if commend == "TAKE" {
+    return "\(que.remove(at: 0))"
+  } else if commend == "SIZE" {
+    return "\(capacity)"
+  } else {
+      return "false"
+  }
+}
+
+if let input1 = readLine() {
+  let valueArr = input1.split(separator: " ")
+  if valueArr.count == 2 {
+    maxCommandNum = Int(valueArr[0])!
+    capacity = Int(valueArr[1])!
+    
+    while maxCommandNum > commandNum {
+      if let input = readLine() {
+        let valueArr = input.split(separator: " ")
+        print(excuteComment(valueArr))
+        commandNum += 1
+      }
+    }
+  }
+}
+
+
+```
+
