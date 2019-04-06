@@ -14,3 +14,40 @@ alert.addAction(UIAlertAction(title: "OK", style: .default, handler: { action in
 self.present(alert, animated: true)
 ```
 
+
+
+### Alamofire + RXSwift Method
+
+```swift
+ func request(method: NetworkMethod, url: String, parameters: [String : Any]?) -> Observable<Any> {
+
+	return Observable.create { observer in
+
+		let method = method.httpMethod()
+		let request = Alamofire.request(url, method: method, parameters: parameters)
+					.validate()
+					.responseJSON(queue: self.queue) { response in
+						switch response.result {
+							case .success(let value):
+								observer.onNext(value)
+								observer.onCompleted()
+
+							case .failure(let error):
+								observer.onError(NetworkError(error: error))
+						}
+					}
+				
+				return Disposables.create {
+					request.cancel()
+				}
+			}
+		}
+```
+
+
+
+
+
+### 좋은 사이트
+
+https://github.com/soapyigu/Swift-30-Projects

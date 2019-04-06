@@ -12,7 +12,7 @@ var - 변수선언
 var company : String
 company = "Apple"
 
-for문
+//for-in Index 사용하기!!
 for (index, element:myTask) in self.taskData.enumerated() {
 }
 ```
@@ -118,6 +118,31 @@ print(tup.result1, tup.result2) // AAA 111
 
 
 
+### 로그
+
+```swift
+Literal        Type     Value
+
+#file          String   The name of the file in which it appears.
+#line          Int      The line number on which it appears.
+#column        Int      The column number in which it begins.
+#function      String   The name of the declaration in which it appears.
+#dsohandle     String   The dso handle.
+
+print("# \(#function)")
+
+//프린트 함수 익스텐션
+func print(debug: Any = "", function: String = #function, file: String = #file, line: Int = #line) {
+    #if DEBUG
+        var filename: NSString = file as NSString
+        filename = filename.lastPathComponent as NSString
+        Swift.print("파일: \(filename), 라인: \(line), 함수: \(function) \n\(debug)")
+    #endif
+}
+```
+
+
+
 ### 클로저
 
 ```swift
@@ -133,6 +158,21 @@ func helloGenerator(message: String) -> (String, String) -> String {swift
 //클로저 활용
 let arr1 = [1, 3, 6, 2, 7, 9]
 let arr2 = arr1.map { $0 * 2 } // [2, 6, 12, 4, 14, 18]
+
+
+func someFunctionThatTakesAClosure(closure: () -> Void) {
+    // function body goes here
+}
+
+// Here's how you call this function without using a trailing closure:
+someFunctionThatTakesAClosure(closure: {
+    // closure's body goes here
+})
+
+// Here's how you call this function with a trailing closure instead:
+someFunctionThatTakesAClosure() {
+    // trailing closure's body goes here
+}
 ```
 
 
@@ -442,6 +482,8 @@ if let savedPerson = defaults.object(forKey: "SavedPerson") as? Data {
         print(loadedPerson.name)
     }
 }
+
+//JSONEncoder 대신 PropertyListEncoder를 사용하여 plist로 관리할 수 있다.
 ```
 
 
@@ -475,6 +517,7 @@ indicator.centerYAnchor.constraint(equalTo: self.centerYAnchor).isActive = true
 //가로 세로 값 넣기
 containerView.widthAnchor.constraintLessThanOrEqualToConstant(320.0).active = true
 ```
+<<<<<<< HEAD
 
 
 
@@ -1033,3 +1076,5 @@ if let input1 = readLine() {
 
 ```
 
+=======
+>>>>>>> bd560447ff95177e4d1dfff40d4713927f1c45d8
