@@ -322,7 +322,7 @@ d
 e
 5
 
-//merge는 둘 중 하나라도 이벤트가 생기면 뿌려준다.
+//concat은 넣어진 순서대로
 Observable.concat(alphabetFromAToE, numberFrom1To5)
 .subscribe(onNext:{ print($0) },
 	onError:{ print($0) },
@@ -505,6 +505,12 @@ lazy var data: Driver<[Repository]> = {
         return Observable.of([Repository]()).asDriver(onErrorJustReturn: [])
     }()
 ```
+
+
+
+#### asDriver asSignal 차이
+
+<img src="files/asDriver asSignal diff.png"/>
 
 
 
