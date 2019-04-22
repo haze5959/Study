@@ -2,7 +2,7 @@
 
 ### Background task
 
-```
+```objective-c
 UIBackgroundTaskIdentifier taskId;              
 
 # pragma mark - background task
@@ -31,7 +31,7 @@ UIBackgroundTaskIdentifier taskId;
 
 위와 같이 선언해 두고 다음과 같이 쓴다.
 
-```
+```objective-c
 [self startBackgroundTask];
 // 할일
 [self endBackgroundTask];
@@ -41,7 +41,7 @@ UIBackgroundTaskIdentifier taskId;
 
 ### 타이머
 
-```
+```objective-c
 [NSTimer scheduledTimerWithTimeInterval:1.0 target:self selector:@selector(timerStop) userInfo:nil repeats:NO];
 /*
 1.0 : 초를 나타낸다. 1초 후 실행
@@ -58,7 +58,7 @@ NO : 반복하지 않음
 
 더 심플한거
 
-```
+```objective-c
 [self performSelector:@selector(function) withObject:nil afterDelay:1.0];
 //위와 같이 사용하면 function이란 함수를 1초 뒤에 실행
 ```
@@ -67,7 +67,7 @@ NO : 반복하지 않음
 
 ### Formatter
 
-```
+```objective-c
 NSNumberFormatter *numberFormatter = [[NSNumberFormatter alloc]init];
 [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
 NSNumber *num = @1234567890.1234;
@@ -85,7 +85,7 @@ NSNumberFormatterSpellOutStyle는 언어에 맞는 문자로 표현
 
 ### view 관련
 
-```
+```objective-c
 //뷰 특정 위치에 삽입
 [self.view insertSubview:viewController.view atIndex:0];
 //서브뷰
@@ -123,7 +123,7 @@ NSLog([[self.view subviews] description]);
 모달 뷰를 사용
 모달 뷰 모델에서는 호출자(Caller)와 피호출자(Callee)간의 부모(Parent)와 자식(Child) 관계가 생깁니다.
 
-```
+```objective-c
 // 새로운 뷰 컨트롤러를 모달로 표시
 [self presentModalViewController:viewController animated:YES];  
 // 현재 모달로 띄워진 뷰 컨트롤러를 닫음
@@ -140,7 +140,7 @@ NSLog([[self.view subviews] description]);
 
 ### 제스쳐
 
-```
+```objective-c
 UITapGestureRecognizer 터치 - 손으로 터치
 UIPinchGestureRecognizer 핀치 - 두 손가락 으로 확대 축소
 UIRotationGestureRecognizer 로테이션 - 손으로 회전
@@ -162,7 +162,7 @@ tripleTap.numberOfTapsRequired = 3;
 
 ### CGContext
 
-```
+```objective-c
 //선 그리기 위한 준비
 UIGraphicsBeginImageContext(self.view.frame.size);
 [self.drawImage.image drawInRect:CGRectMake(0, 0, self.drawImage.frame.size.width, self.drawImage.frame.size.height)];
@@ -196,7 +196,7 @@ UIGraphicsEndImageContext();
 
 ### 생명주기
 
-```
+```objective-c
    - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
      => 어플리케이션이 처음 실행될 때. (처음 메모리상에 올라가게 될 때를 말함) 
    - (void)applicationDidBecomeActive:(UIApplication *)application
@@ -235,7 +235,7 @@ UIGraphicsEndImageContext();
 
 ### 각종 정보
 
-```
+```objective-c
 //시스템 OS 이름
 [[UIDevice currentDevice] systemName];
 
@@ -270,7 +270,7 @@ UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone
 
 ##### 컨텐츠 관리
 
-```
+```objective-c
 // Content Offset
 [scrollView setContentOffset:CGPointMake(100.0f, 100.0f)];
 CGPoint offset = [scrollView contentOffset];
@@ -300,7 +300,7 @@ scrollView.scrollIndicatorInsets = UIEdgeInsetsMake(10.0, 10.0, 10.0, 10.0);
 
 #### 스크롤 설정
 
-```
+```objective-c
 // 스크롤 설정
 scrollView.scrollEnabled = YES;
 
@@ -357,7 +357,7 @@ if (scrollView.decelerating) {
 
 #### 디스패치 큐 생성
 
-```
+```objective-c
 // 새로운 시리얼 디스패치 큐를 생성한다(2번째 인자에 NULL 넣으면 디폴트로 시리얼 디스패치 생성)
 dispatch_queue_t serialQueue = dispatch_queue_create("com.davin.serialqueue", DISPATCH_QUEUE_SERIAL);
     
@@ -373,7 +373,7 @@ dispatch_queue_t globalQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY
 
 ### 사용법
 
-```
+```objective-c
 // 비동기로 작업을 추가 및 수행한다
 void dispatch_async(dispatch_queue_t queue, dispatch_block_t block);
 // 동기로 작업을 추가 및 수행한다
@@ -390,7 +390,7 @@ dispatch_async(queue, ^{ NSLog(@"Call 5"); });
 
 ### 2초후에 작업을 수행하자
 
-```
+```objective-c
 dispatch_queue_t queue = dispatch_queue_create("com.davin.queue", DISPATCH_QUEUE_SERIAL);
 
 double delayInSeconds = 2.0;
@@ -402,7 +402,7 @@ dispatch_async(queue, ^{ NSLog(@"Call 2"); });
 ```
 
 ###  스레드 그룹이 작업이 끝났을 경우 알림을 받자
-```
+```objective-c
 dispatch_group_t group = dispatch_group_create();
 dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
 
