@@ -612,3 +612,28 @@ string second: G
 ===============================
 ```
 
+
+
+### RxAlamofire
+
+```swift
+func loginWithSocket(infos: LoginScript) -> Observable<ShopLoginScrapResult> {
+        let method = self.getMethod(infos)
+        if let mainUrl = infos.mainUrl {
+            return RxAlamofire.request(method, mainUrl)
+                .validate(statusCode: 200 ..< 300)
+                .flatMap({ (_) -> Observable<ShopLoginScrapResult> in
+                    return self.socketLogin(infos)
+                })
+                .retry(3)
+                .catchError({ (error) -> Observable<ShopLoginScrapResult> in
+                    return Observable.just(.loginFail(shop: self.shop))
+                })
+                .startWith(.loginStart(shop: self.shop))
+        }
+        else {
+            return socketLogin(infos)
+        }
+    }
+```
+
