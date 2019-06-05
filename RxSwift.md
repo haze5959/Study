@@ -614,6 +614,16 @@ string second: G
 
 
 
+### UIDataBinding
+
+```swift
+//이런 식으로 괜히 delegate로 코드 분량 늘리지 않고 바인딩 가능
+loadingView.isLoading
+	.bind(to: self.rx.isAnimating).disposed(by: disposeBag)
+```
+
+
+
 ### RxAlamofire
 
 ```swift

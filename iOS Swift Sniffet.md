@@ -45,9 +45,3 @@ self.present(alert, animated: true)
 ```
 
 
-
-
-
-### 좋은 사이트
-
-https://github.com/soapyigu/Swift-30-Projects
