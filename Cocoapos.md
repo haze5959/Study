@@ -30,7 +30,7 @@ pod update //최신 버전으로 인스톨
 
 ### 1. 프로젝트 생성
 
-```
+```xml
 pod lib create 프로젝트이름
 ```
 
@@ -59,7 +59,7 @@ pod spec lint	//문법 검사
 ### 4. repo 추가 및 push
 
 ```
-pod repo add [REPO_NAME] [깃 주소]
+pod repo add [REPO_NAME] [깃 주소]	
 pod repo push [REPO_NAME] [.podspec경로] --allow-warnings
 
 //터미널
@@ -77,9 +77,8 @@ pod trunk register [E-MAIL] [NAME] -description=’[INFORMATION]’
 
 
 
-### 6. trunk에 등록
+### 6. trunk에 등록 (다음부터 버전 올릴때는 이부분만 해도 된다.)
 
 ```
-pod trunk push [podSpec file name]
+pod trunk push [podSpec file name] --allow-warnings
 ```
-

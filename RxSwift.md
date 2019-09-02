@@ -292,6 +292,7 @@ Observable.range(start: 1, count: 9)
 let alphabetFromAToE = Observable.from(["a", "b", "c", "d", "e"])
 let numberFrom1To5 = Observable.from(["1", "2", "3", "4", "5"])
 
+//combineLatest와 다른점은 두값다 안들어와도 구독된다
 Observable.zip(alphabetFromAToE, numberFrom1To5)
 .subscribe(onNext:{ print($0) },
 	onError:{ print($0) },
