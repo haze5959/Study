@@ -28,7 +28,7 @@ android:screenOrientation="landscape"
     각종 태그에 @abc 이렇게 사용
     ```
 
-    ​
+    
 
 - Activity에서 불러오기
 
