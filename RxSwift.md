@@ -48,7 +48,7 @@ Observable.just(“Helllo World!”)
 		}.addDisposableTo(bag);
 
 //순차적 진행
-Observable.create<String>{ observer in
+Observable<String>.create{ observer in
 	observer.onNext(“1”)
 	observer.onNext(“2”)
 	observer.onNext(“3”)
