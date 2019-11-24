@@ -13,6 +13,13 @@ struct ContentView_Previews: PreviewProvider {
     }
 }
 
+//뷰를 특정 크기만큼 프리뷰
+struct LandmarkRow_Previews: PreviewProvider {
+    static var previews: some View {
+        LandmarkRow(landmark: landmarkData[1])
+            .previewLayout(.fixed(width: 300, height: 70))
+    }
+}
 ```
 
 
@@ -194,7 +201,7 @@ struct EpisodesView: View {
 #### @EnvironmentObject
 
 ```swift
-//Pubilshed와 기본적으로 같지만 뷰를 초기화할때 외부에서 값을 주입할 수 있는 차이점이 있다.
+//Pubilshed와 기본적으로 같지만 뷰를 초기화할때 외부에서 값을 주입할 수 있고 참조로 대입되기 때문에 환경변수처럼 사용할 수 있다.
 @EnvironmentObject var userData: UserData
 
 //예제
@@ -257,6 +264,130 @@ struct CalendarView: View {
     var body: some View {
         return Text(locale.identifier)
     }
+}
+
+//커스텀 Enviroment Key
+struct ImageFetcherKey: EnvironmentKey {
+    static let defaultValue: ImageFetcher = ImageFetcher()
+}
+
+extension EnvironmentValues {
+    var imageFetcher: ImageFetcher {
+        get {
+            return self[ImageFetcherKey.self]
+        }
+        set {
+            self[ImageFetcherKey.self] = newValue
+        }
+    }
+}
+```
+
+
+
+## Position
+
+```swift
+VStack(alignment: .leading) {//정렬 설정
+            Text("Turtle Rock")
+                .font(.title)
+            Text("Joshua Tree National Park")
+                .font(.subheadline)
+        }
+.offset(y: -130)	//위로 이동
+.padding(.bottom, -130)	//아래 패딩 설정
+
+Spacer()	//동적 공간 생성
+```
+
+
+
+## View
+
+```swift
+
+struct CircleImage: View {
+    var body: some View {
+        Image("turtlerock")
+            .clipShape(Circle())	//라운딩
+            .overlay(
+                Circle().stroke(Color.white, lineWidth: 4))	//테두리
+            .shadow(radius: 10)	//그림자
+    }
+}
+```
+
+![swiftUI_01](files/swiftUI_01.png)
+
+
+
+## NavigationView
+
+```swift
+
+struct LandmarkList: View {
+    var body: some View {
+        NavigationView {
+            List(landmarkData) { landmark in
+                NavigationLink(destination: LandmarkDetail()) {	//페이지 이동
+                    LandmarkRow(landmark: landmark)
+                }
+            }
+            .navigationBarTitle(Text("Landmarks"))	//네비게이션뷰 타이틀
+        }
+    }
+}
+```
+
+
+
+## Animation
+
+```swift
+Button(action: {
+              withAnimation(.easeInOut(duration: 4)) {	//UIView.anmation 같은거
+                        self.showDetail.toggle()
+                    }
+                }) {
+                    Image(systemName: "chevron.right.circle")
+                        .imageScale(.large)
+                        .rotationEffect(.degrees(showDetail ? 90 : 0))	//회전 이벤트
+                        .scaleEffect(showDetail ? 1.5 : 1)	//스케일 이벤트
+                        .padding()
+                }
+
+if showDetail {
+                HikeDetail(hike: hike)
+                    .transition(.slide)	//이동 이벤트
+  									//혹은
+  									.move(edge: .trailing)	//이동 이벤트
+            }
+
+//이동 이벤트 커스텀 익스텐션
+extension AnyTransition {
+    static var moveAndFade: AnyTransition {
+        let insertion = AnyTransition.move(edge: .trailing)
+            .combined(with: .opacity)
+        let removal = AnyTransition.scale
+            .combined(with: .opacity)
+        return .asymmetric(insertion: insertion, removal: removal)
+    }
+}
+
+//애니메이션 변수 선언
+var animation: Animation {
+    Animation.spring(dampingFraction: 0.5)
+        .speed(2)
+        .delay(0.03 * Double(index))
+}
+
+var body: some View {
+    Capsule()
+        .fill(Color.gray)
+        .frame(height: height * heightRatio, alignment: .bottom)
+        .offset(x: 0, y: height * -offsetRatio)
+        .animation(animation)	//애니메이션 변수 적용
+    )
 }
 ```
 
