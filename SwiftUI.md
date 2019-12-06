@@ -324,16 +324,39 @@ struct CircleImage: View {
 ## NavigationView
 
 ```swift
-
 struct LandmarkList: View {
     var body: some View {
         NavigationView {
-            List(landmarkData) { landmark in
+          Form {	//하나의 셀 같은느낌
+                        Section {	//하나의 폼에는 여러개의 섹션이 들어갈 수 있다.
+                          List(landmarkData) { landmark in
                 NavigationLink(destination: LandmarkDetail()) {	//페이지 이동
                     LandmarkRow(landmark: landmark)
                 }
             }
-            .navigationBarTitle(Text("Landmarks"))	//네비게이션뷰 타이틀
+                        }
+          }.navigationBarTitle(Text("Landmarks"))	//네비게이션뷰 타이틀
+        }
+    }
+}
+
+//네비게이션 픽커
+struct TypePickerView: View {
+    var strengths = TreeValueType.getAllCase()
+    @State private var selectedStrength = 0
+    
+    var body: some View {
+        NavigationView {
+            Form {
+                Section {
+                    Picker(selection: $selectedStrength, label: Text("Strength")) {
+                        ForEach(0 ..< strengths.count) {
+                            Text(self.strengths[$0])
+
+                        }
+                    }
+                }
+            }.navigationBarTitle("Select your cheese")
         }
     }
 }
