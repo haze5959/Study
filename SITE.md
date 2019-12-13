@@ -26,3 +26,6 @@ Charles 사용법: https://devmjun.github.io/archive/Charles
 
 waterfall grid: https://github.com/paololeonardi/WaterfallGrid?utm_campaign=iOS%2BDev%2BWeekly&utm_medium=web&utm_source=iOS%2BDev%2BWeekly%2BIssue%2B428
 
+
+
+Shell Script: https://blog.gaerae.com/2015/01/bash-hello-world.html?m=1
