@@ -41,3 +41,9 @@ transaction, 데이터의 무결성 등을 처리하기에 용이하다.
 DB 접근 용이하게 하는 클래스라 생각하면 됨
 
 ![DDD 패턴](\/files/DDD 패턴.png)
+
+
+
+## Clean Architecture
+
+![clean-architecture](files/clean-architecture.png)

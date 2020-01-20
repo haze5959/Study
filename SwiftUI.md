@@ -111,6 +111,9 @@ return ForEach(supportedLocales, id: \.identifier) { locale in
 
 ## Property Wrappers
 
+내가 이상하게 정리한듯..
+그냥 이거보자: https://swiftwithmajid.com/2019/06/12/understanding-property-wrappers-in-swiftui/
+
 ### @State
 
 ```swift
@@ -159,7 +162,7 @@ struct ProductsView: View {
 ### @Published
 
 ```swift
-//양반향 바인딩
+//양반향 바인딩 ObservableObject가 변경되었다고 알림
 //예제
 final class PodcastPlayer: ObservableObject {
     @Published private(set) var isPlaying: Bool = false
@@ -201,7 +204,7 @@ struct EpisodesView: View {
 #### @EnvironmentObject
 
 ```swift
-//Pubilshed와 기본적으로 같지만 뷰를 초기화할때 외부에서 값을 주입할 수 있고 참조로 대입되기 때문에 환경변수처럼 사용할 수 있다.
+//Pubilshed와 기본적으로 같지만 뷰를 초기화할때 외부에서 값을 주입할 수 있고 참조로 대입되기 때문에 환경변수처럼 사용할 수 있다. 즉 한번 주입되면 그 안의 뷰들에서 따로 주입해주지 않아도 빼내서 사용할 수 있음! DI
 @EnvironmentObject var userData: UserData
 
 //예제
