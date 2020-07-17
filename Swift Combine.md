@@ -2,24 +2,57 @@
 
 
 
-### URLSession Snippet
+통신 Publisher 제작과 사용 예제
 
 ```swift
-private var cancellable: AnyCancellable?
-//...
-self.cancellable = URLSession.shared.dataTaskPublisher(for: url)
-.map { $0.data }
-.decode(type: [Post].self, decoder: JSONDecoder())
-.replaceError(with: [])	//에러가 있다면 빈배열을 리턴한다.
-.eraseToAnyPublisher()
-.sink(receiveValue: { posts in
-    print(posts.count)
-})
-//...
-self.cancellable?.cancel()
+let postsDataTaskPublisher = URLSession.shared.dataTaskPublisher(
+          for: URL(
+              string: “https://jsonplaceholder.typicode.com/posts"
+          )!
+        )
+let commentsDataTaskPublisher = URLSession.shared.dataTaskPublisher(
+          for: URL(
+             string: “https://jsonplaceholder.typicode.com/comments"
+          )!
+        )
+let postsPublisher = postsDataTaskPublisher
+     .retry(2)
+     .map(\.data)
+     .decode(type: [Post].self, decoder: JSONDecoder())
+     .replaceError(with: [])
+let commentsPublisher = commentsDataTaskPublisher
+    .retry(2)
+    .map(\.data)
+    .decode(type: [Comment].self, decoder: JSONDecoder())
+    .replaceError(with: [])
+Publishers.CombineLatest(postsPublisher, commentsPublisher)
+     .sink { posts, comments in
+          print(“There are \(posts.count) posts”)
+          print(“There are \(comments.count) comments”)
+     }
+     .store(in: &subscriptions)
+// prints There are 100 posts
+// prints There are 500 comments
 ```
 
-#### Error Handling
+
+
+통신 Publisher 구독 관련 간단 예제
+
+```swift
+dataTaskPublisher
+    .retry(2)
+    .map(\.data)
+    .decode(type: [Post].self, decoder: JSONDecoder())
+    .replaceError(with: [])
+    .receive(on: DispatchQueue.main)
+    .sink { posts in
+        print("There are \(posts.count) posts")
+    }
+    .store(in: &subscriptions)
+```
+
+Error Handling
 
 ```swift
 enum HTTPError: LocalizedError {
