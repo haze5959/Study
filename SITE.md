@@ -6,6 +6,8 @@ SVG에대한 예제: http://tutorials.jenkov.com/svg/svg-animation.html
 
 
 
+정규식 완전정복: https://wormwlrm.github.io/2020/07/19/Regular-Expressions-Tutorial.html?fbclid=IwAR179YHayQW5ibp-DWtyLz7V3PW_s6tZXprhkxIGo_lBpYTgZWzjgcqDAYQ
+
 ## angular 관련
 
 이미지 드랍다운 및 업로드 라이브러리: https://aberezkin.github.io/ng2-image-upload/#/readme
