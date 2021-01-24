@@ -46,7 +46,7 @@ services:
 docker-compose -v	# 버전 확인
 docker-compose version	# 디테일 버전 확인
 docker-compose config	# docker-compose.yml에 기록된 설정들 보기
-docker-compose up	# 이미지들 시작
+docker-compose up	# 이미지들 시작	-d: 지속적
 docker-compose down	# 이미지들 종료
 docker-compose start {이미지}	# 이미지 시작	(종료는 stop)
 docker-compose logs {이미지} # 해당 도커의 로그 보기
@@ -79,10 +79,48 @@ $ docker -v
 
 
 
+빌드
+
+```shell
+docker build -t hello .	# 해당 경로의 Dockerfile을 보고 hello란 이미지를 만들어준다.
+```
+
+
+
+실행
+
+```shell
+docker run -t -d --name my_debian debian
+# debian - 이미지
+# my_debian - 해당 프로세스의 이름
+# -d - detach: 안죽고 계속 실행하기 (데몬모드)
+# -p : 컨테이너와 호스트의 포트를 연결한다.
+# --volume : 호스트 OS와 컨테이너의 디렉터리를 공유한다.
+# -i : 컨테이너와의 입출력을 interactive하게 설정한다.
+# -t : 터미널 역할을 해주는 tty를 사용한다.
+
+docker exec [컨테이너 이름] [명령어]	# 접속하지않고 명령어 날리기
+docker exec -it [컨테이너] /bin/sh	# 새 터미널 열어서 접속하기
+docker attach	[컨테이너 이름]	# 해당 컨테이너 접속
+```
+
+
+
 기본 명령어
 
 ```shell
-docker ps	# 실행 중인 프로세스 보기
+docker ps	# 실행 중인 프로세스 보기	-a 붙이면 실행중이지 않은것까지 보임
+docker image ls # 빌드된 이미지들 보기
+docker rmi -f [이미지]	# 이미지와 컨테이너 삭제
+docker rm [컨테이너id] # 컨테이너 삭제, 전부 삭제: docker rm -f $(docker ps -aq)
+docker image tag [이미지] [name]:[tag]
+```
 
+
+
+도커 허브 배포
+
+```shell
+docker commit [이미지]
 ```
 
