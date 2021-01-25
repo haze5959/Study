@@ -58,6 +58,7 @@
 - env : 환경변수 보기
 - ps -ef | grep node : 프로세스 아이디 찾기
   - kill -9 [pid] : 이렇게 지우자
+- which command-name: 해당 커맨드 위치 보기
 
 
 

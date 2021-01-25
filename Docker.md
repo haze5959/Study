@@ -49,7 +49,8 @@ docker-compose config	# docker-compose.yml에 기록된 설정들 보기
 docker-compose up	# 이미지들 시작	-d: 지속적
 docker-compose down	# 이미지들 종료
 docker-compose start {이미지}	# 이미지 시작	(종료는 stop)
-docker-compose logs {이미지} # 해당 도커의 로그 보기
+docker-compose logs {이미지} # 해당 도커의 로그 보기  --tail=5 5줄만
+docker-compose rm	# 도커 컴포즈로 생성된 컨테이너 일괄 삭제
 ```
 
 
@@ -90,7 +91,7 @@ docker build -t hello .	# 해당 경로의 Dockerfile을 보고 hello란 이미�
 실행
 
 ```shell
-docker run -t -d --name my_debian debian
+docker run -it -d --name my_debian debian
 # debian - 이미지
 # my_debian - 해당 프로세스의 이름
 # -d - detach: 안죽고 계속 실행하기 (데몬모드)
