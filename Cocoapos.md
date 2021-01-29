@@ -82,3 +82,13 @@ pod trunk register [E-MAIL] [NAME] -description=’[INFORMATION]’
 ```
 pod trunk push [podSpec file name] --allow-warnings
 ```
+
+
+
+7. ### 혹시 트렁크에 캐시가 남아있어서 이전 소스를 바라본다면 다음 코드 실행
+
+   ```
+   pod cache clean 'FortifySec' --all
+   ```
+
+   ### 

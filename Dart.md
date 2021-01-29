@@ -67,6 +67,39 @@ printInteger(int aNumber) {
 
 
 
+### Class
+
+```dart
+class Car {  
+   // field 
+   String engine = "E1001";  
+   
+   // function 
+   void disp() { 
+      print(engine); 
+   } 
+}
+
+var obj = new Car("Engine 1");
+
+
+// 생성자
+void main() {           
+   Car c1 = new Car.namedConst('E1001');                                       
+   Car c2 = new Car(); 
+}           
+class Car {                   
+   Car() {                           
+      print("Non-parameterized constructor invoked");
+   }                                   
+   Car.namedConst(String engine) { 
+      print("The engine is : ${engine}");    
+   }                               
+}
+```
+
+
+
 ### Async 관련
 
 - async/await 는 js처럼 사용하면 됨

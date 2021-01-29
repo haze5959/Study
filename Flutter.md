@@ -1,5 +1,11 @@
 # Flutter
 
+## CLI
+
+```shell
+flutter pub upgrade	// 의존성 업데이트
+```
+
 
 
 ### StatelessWidget, StatelessWidget
@@ -374,4 +380,11 @@ ListView
   ```
 
   
+
+# Web App
+
+```sh
+flutter run -d chrome	# 크롬으로 실행하기
+flutter build web	# 릴리즈 빌드하기
+```
 

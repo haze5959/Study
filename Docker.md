@@ -1,3 +1,7 @@
+curl -d "{\"@context\":\"https://schema.org/extensions\",\"@type\":\"MessageCard\",\"themeColor\":\"0072C6\",\"title\":\"test",\"summary\":\"Success!\",\"setcions\":[{\"activityTitle\":\"test1",\"activityText\":\"test2\"}]}" -H "Content-Type: Application/JSON" -X POST https://outlook.office.com/webhook/8e7b3e61-4907-4f49-bfea-dc8867613f3c@f0f864aa-cc3f-4efa-9031-67c45621f9e5/IncomingWebhook/1696ac924722435a88980fb61e6d6f05/58a1e1a1-09ca-4234-b66a-aa7f25aae749
+
+
+
 # Docker
 
 ### Docker compose
