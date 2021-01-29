@@ -242,3 +242,87 @@ add(3, 4) # 7
 
 # if __name__ == "__main__" 을 사용하면 해당 모듈을 직접 실행할때만 타게된다
 ```
+
+
+
+# request 모듈
+
+### 설치
+
+```shell
+pip3 install requests
+```
+
+
+
+### 요청
+
+```python
+import requests
+r = requests.get('https://test.com/events')
+r = requests.get('https://test.com/events', params = {'key': 'value'})	# get
+r = requests.post('https://test.com/post', data = {'key': 'value'})	# post
+```
+
+
+
+### 응답
+
+```python
+response.status_code	# 응답 상태 코드
+response.url	# 요청 url
+response.text	# 응답데이터 - 웹페이지 소스코드나 문자 데이터, json을 확인할 때 사용
+response.json()	# 응답데이터가 json일 경우 이렇게 바로 가져올 수 있다.
+response.content	# 응답데이터 - byte 자체를 받아 변환하거나 저장할 때 사용
+response.encoding	# 응답 데이터의 인코딩 방식
+response.headers	# 응답 헤더
+```
+
+
+
+# Scheduler 모듈
+
+```python
+import schedule 
+import time 
+def job_second(): 
+    print("I'm working...every second") 
+    
+def job_minute(): 
+    print("I'm working...every minute") 
+    
+def job_hour(): 
+    print("I'm working...every hour") 
+    
+def job_day(): 
+    print("I'm working...every day") 
+    
+def job_monday(): 
+    print("I'm working...every monday") 
+    
+def job_wednesday(): 
+    print("I'm working...every wednesday") 
+    
+# # 10초에 한번씩 실행 
+schedule.every(10).seconds.do(job_second) 
+
+# # 10분에 한번씩 실행 
+schedule.every(10).minutes.do(job_minute) 
+
+# # 매 시간 실행 
+schedule.every().hours.do(job_hour) 
+
+# # 매일 10:30 에 실행 
+schedule.every().days.at("10:30").do(job_day) 
+
+# # 매주 월요일 실행 
+schedule.every().monday.do(job_monday) 
+
+# # 매주 수요일 13:15 에 실행 
+schedule.every().wednesday.at("13:15").do(job_wednesday) 
+
+while True: 
+    schedule.run_pending() 
+    time.sleep(1)
+```
+
