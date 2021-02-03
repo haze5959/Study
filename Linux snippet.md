@@ -149,6 +149,8 @@ server {
     error_page 403 /error_403.html;
     }
 }
+
+### 완벽정리: https://architectophile.tistory.com/12
 ```
 
 설정 반영 - systemctl reload nginx
