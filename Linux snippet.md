@@ -14,7 +14,7 @@
 ### 네트워크
 
 - nslookup : 도메인의 IP주소나 도메인 정보 출력
-- netstat -tulpn | grep LISTEN : 현재 열려있는 포트 확인
+- netstat -tulpn | grep LISTEN : 현재 열려있는 포트 확인 **
 - firewall-cmd —zone=publaic —add-port=8080/tcp —permanent : 해당 포트 방화벽 열기
 - firewall-cmd —reload : 방화벽 리로드
 
