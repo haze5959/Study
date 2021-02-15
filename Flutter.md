@@ -386,5 +386,9 @@ ListView
 ```sh
 flutter run -d chrome	# 크롬으로 실행하기
 flutter build web	# 릴리즈 빌드하기
+
+# iOS 시뮬로 실행하기
+open -a Simulator
+flutter run
 ```
 
