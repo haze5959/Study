@@ -2,7 +2,7 @@
 
 참고문서: https://wikidocs.net/4307 (점프 투 파이썬)
 
-
+박상철 개인폰
 
 ###  if / for
 
@@ -136,6 +136,10 @@ a.index(3) # 2
 # 확장하기
 a = [1,2,3]
 a.extend([4,5]) # [1, 2, 3, 4, 5]
+
+# check if element exist in list using 'in'
+if 'at' in listOfStrings :
+    print("Yes, 'at' found in List : " , listOfStrings)
 ```
 
 

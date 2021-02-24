@@ -126,6 +126,8 @@ docker image tag [이미지] [name]:[tag]
 도커 허브 배포
 
 ```shell
-docker commit [이미지]
+docker stop [컨테이너id]	# 먼저 컨테이너를 멈춘다.
+docker commit [컨테이너id] [이미지]
+docker push [계정]/[이미지 이름]:[버전]
 ```
 
