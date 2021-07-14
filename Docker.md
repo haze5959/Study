@@ -1,7 +1,3 @@
-curl -d "{\"@context\":\"https://schema.org/extensions\",\"@type\":\"MessageCard\",\"themeColor\":\"0072C6\",\"title\":\"test",\"summary\":\"Success!\",\"setcions\":[{\"activityTitle\":\"test1",\"activityText\":\"test2\"}]}" -H "Content-Type: Application/JSON" -X POST https://outlook.office.com/webhook/8e7b3e61-4907-4f49-bfea-dc8867613f3c@f0f864aa-cc3f-4efa-9031-67c45621f9e5/IncomingWebhook/1696ac924722435a88980fb61e6d6f05/58a1e1a1-09ca-4234-b66a-aa7f25aae749
-
-
-
 # Docker
 
 ### Docker compose
@@ -102,7 +98,8 @@ docker run -it -d --name my_debian debian
 # -p : 컨테이너와 호스트의 포트를 연결한다.
 # --volume : 호스트 OS와 컨테이너의 디렉터리를 공유한다.
 # -i : 컨테이너와의 입출력을 interactive하게 설정한다.
-# -t : 터미널 역할을 해주는 tty를 사용한다.
+# -t : 터미널 역할을 해주는 tty를 사용한다.\
+# docker run -it -d -p 8000:8000 --name my_test haze5959/camp_middleware:0.4
 
 docker exec [컨테이너 이름] [명령어]	# 접속하지않고 명령어 날리기
 docker exec -it [컨테이너] /bin/sh	# 새 터미널 열어서 접속하기
@@ -128,6 +125,5 @@ docker image tag [이미지] [name]:[tag]
 ```shell
 docker stop [컨테이너id]	# 먼저 컨테이너를 멈춘다.
 docker commit [컨테이너id] [이미지]
-docker push [계정]/[이미지 이름]:[버전]
+docker push [계정]/[이미지 이름]:[버전]s
 ```
-
