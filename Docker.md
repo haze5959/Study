@@ -52,7 +52,7 @@ docker-compose version	# 디테일 버전 확인
 docker-compose config	# docker-compose.yml에 기록된 설정들 보기
 docker-compose up	# 이미지들 시작	-d: 지속적
 docker-compose down	# 이미지들 종료
-docker-compose start {이미지}	# 이미지 시작	(종료는 stop)
+docker-compose start {이미지}	# 이미지 시작	(종료는 stop, 재시작 restart)
 docker-compose logs {이미지} # 해당 도커의 로그 보기  --tail=5 5줄만
 docker-compose rm	# 도커 컴포즈로 생성된 컨테이너 일괄 삭제
 ```
