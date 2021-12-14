@@ -104,6 +104,7 @@ docker run -it -d --name my_debian debian
 docker exec [컨테이너 이름] [명령어]	# 접속하지않고 명령어 날리기
 docker exec -it [컨테이너] /bin/sh	# 새 터미널 열어서 접속하기
 docker attach	[컨테이너 이름]	# 해당 컨테이너 접속
+docer restart [컨테이너 아이디]
 ```
 
 
