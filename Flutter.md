@@ -4,6 +4,7 @@
 
 ```shell
 flutter pub upgrade	// 의존성 업데이트
+flutter pub run build_runner build	// 모델 업데이트	
 ```
 
 
