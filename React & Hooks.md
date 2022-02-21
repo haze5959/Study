@@ -102,7 +102,7 @@ const Display = () => {
 
 ## useReducer()
 
-이전 값을 이용해서 뭔가 처리하려고할때 사용
+useState로 처리하기 좀 복잡할 때 이용
 ```js
 const initialState = { width: 15 };
 
@@ -132,7 +132,7 @@ const Bar = () => {
 };
 ```
 
-## useCallback() & useMemo()
+## useCallback() & useMemo() & memo
 
 리랜더링을 회피하기 위한 방법
 
