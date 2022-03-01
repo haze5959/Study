@@ -1,17 +1,19 @@
 # Hash / 암호화 알고리즘
+자주 쓰이는 것들만 정리~
 
 ## RSA 
-
-It is an asymmetric cryptography, i.e. it uses a key to encrypt data and then uses a different key for decryption. These are normally called a public key and a private key. The public key can be used to encrypt some data and then it would require a private key for its decryption.
-
-
+- 비대칭 암호화
+- 키를 사용하여 데이터를 암호화한 다음 다른 키를 사용하여 복호화한다.
+- 이를 일반적으로 공개 키 및 개인 키라고 합니다.
+- 공개 키는 일부 데이터를 암호화하는 데 사용할 수 있으며 암호 해독을 위해 개인 키가 필요합니다.
 
 ## AES
-
-It is a symmetric cryptography, i.e. it uses same key for both encryption and decryption.
-
-
+- 대칭 암호화 
+- 암호화와 암호 해독에 동일한 키를 사용합니다.
+- 같은 키를 사용한다해도 iv(이니셜백터) 값이 다르면 다른 결과가 나오기 때문에 조심
 
 ## SHA
-
-It is a hash algorithm, i.e. one way encryption. So that it gives no way for decryption.
+- 해시 알고리즘
+- 한번 해시화 되면 본인 외에 세상 누구도 모른다.
+- 비밀번호 저장할 때 자주 쓰임
+- sha256은 64자리 반환 / sha512는 128자리 반환
